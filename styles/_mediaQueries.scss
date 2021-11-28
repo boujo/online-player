@@ -1,0 +1,6 @@
+/* ----------- Tablet ----------- */
+@mixin tablet {
+  @media only screen and (min-device-width: 600px) {
+    @content;
+  }
+}
