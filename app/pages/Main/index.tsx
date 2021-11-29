@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
@@ -10,19 +10,29 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 // } from './components';
 import {
   State,
+  SongStatus,
   initial,
+  currentSongChange,
+  songStatusChange
 } from './slice';
 
 import styles from './index.module.scss';
 
 const Main: NextPage = () => {
+  const inputSongRef = useRef(null);
+  const audioRef = useRef(null);
+
   const dispatch = useAppDispatch();
   const selectState = (state: RootState): State => {
     return {
-      loading : state.main.loading
+      loading     : state.main.loading,
+      currentSong : state.main.currentSong,
+      songStatus  : state.main.songStatus
     }
   };
   const state: State = useAppSelector(selectState);
+
+  console.log(state)
   
   useEffect(() => {
     // on mount
@@ -32,6 +42,38 @@ const Main: NextPage = () => {
     }
   }, [])
 
+  const onSelectSongButtonClick = () => {
+    if (inputSongRef && inputSongRef.current) {
+      inputSongRef.current.click();
+    }
+  };
+
+  const onSelectSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      // console.log(URL.createObjectURL(e.target.files[0]))
+      // dispatch(currentSongChange(e.target.files[0]));
+      dispatch(currentSongChange(URL.createObjectURL(e.target.files[0])));
+    }
+  };
+
+  const onPlayButtonClick = () => {
+    if (audioRef.current) {
+      if (state.songStatus === SongStatus.STOP) {
+        audioRef.current.load();
+        audioRef.current.play();
+        dispatch(songStatusChange(SongStatus.PLAY));
+
+      } else if (state.songStatus === SongStatus.PLAY) {
+        audioRef.current.pause();
+        dispatch(songStatusChange(SongStatus.PAUSE));
+
+      } else if (state.songStatus === SongStatus.PAUSE) {
+        audioRef.current.play();
+        dispatch(songStatusChange(SongStatus.PLAY));
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -40,7 +82,44 @@ const Main: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      Main
+      <div className={styles.main}>
+        <div
+          className={styles.selectSongButton}
+          onClick={onSelectSongButtonClick}
+        >
+          <input type="file" ref={inputSongRef} onChange={onSelectSongChange} />
+          Select Song
+        </div>
+
+        <div className={styles.cover}>
+          <div className={styles.coverImage}>
+            <img src="" alt="" />
+          </div>
+          <div className={styles.artist}>artist</div>
+          <div className={styles.name}>name</div>
+        </div>
+
+        <div className={styles.slider}>
+          <input type="range" min="1" max="100" value="50" />
+        </div>
+
+        <div className={styles.buttonsContainer}>
+          <audio ref={audioRef}>
+            <source src={state.currentSong} />
+          </audio>
+
+          <div
+            className={styles.playButton}
+            onClick={onPlayButtonClick}
+          >
+            {state.songStatus === SongStatus.PLAY ?
+              <i className="material-icons">pause</i>
+              :
+              <i className="material-icons">play_arrow</i>
+            }
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

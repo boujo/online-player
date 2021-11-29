@@ -1,11 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+export enum SongStatus {
+  STOP,
+  PLAY,
+  PAUSE
+};
+
 export interface State {
-  loading : boolean
+  loading     : boolean,
+  currentSong : string,
+  songStatus  : SongStatus
 };
 
 const INITIAL_STATE: State = {
-  loading : false
+  loading     : false,
+  currentSong : "",
+  songStatus  : SongStatus.STOP
 };
 
 export const initial = createAsyncThunk(
@@ -19,6 +29,12 @@ export const slice = createSlice({
   name: 'main',
   initialState: INITIAL_STATE,
   reducers: {
+    currentSongChange: (state, action) => {
+      state.currentSong = action.payload;
+    },
+    songStatusChange: (state, action) => {
+      state.songStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -31,6 +47,6 @@ export const slice = createSlice({
   },
 });
 
-// export const { } = slice.actions;
+export const { currentSongChange, songStatusChange } = slice.actions;
 
 export default slice.reducer;
