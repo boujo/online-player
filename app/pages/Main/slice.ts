@@ -7,15 +7,11 @@ export enum SongStatus {
 };
 
 export interface State {
-  loading     : boolean,
-  currentSong : string,
-  songStatus  : SongStatus
+  loading     : boolean
 };
 
 const INITIAL_STATE: State = {
-  loading     : false,
-  currentSong : "",
-  songStatus  : SongStatus.STOP
+  loading     : false
 };
 
 export const initial = createAsyncThunk(
@@ -29,12 +25,6 @@ export const slice = createSlice({
   name: 'main',
   initialState: INITIAL_STATE,
   reducers: {
-    currentSongChange: (state, action) => {
-      state.currentSong = action.payload;
-    },
-    songStatusChange: (state, action) => {
-      state.songStatus = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -47,6 +37,6 @@ export const slice = createSlice({
   },
 });
 
-export const { currentSongChange, songStatusChange } = slice.actions;
+// export const { } = slice.actions;
 
 export default slice.reducer;

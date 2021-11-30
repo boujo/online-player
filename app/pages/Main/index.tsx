@@ -5,15 +5,17 @@ import Head from 'next/head';
 // import {
 // } from '../../components';
 import { RootState } from '../../store';
-import { useAppSelector, useAppDispatch } from '../../hooks';
+import {
+  usePlayer,
+  PlayerStatus,
+  useAppSelector,
+  useAppDispatch
+} from '../../hooks';
 // import {
 // } from './components';
 import {
   State,
-  SongStatus,
-  initial,
-  currentSongChange,
-  songStatusChange
+  initial
 } from './slice';
 
 import styles from './index.module.scss';
@@ -22,17 +24,28 @@ const Main: NextPage = () => {
   const inputSongRef = useRef(null);
   const audioRef = useRef(null);
 
+  const {
+    playerUrl,
+    playerStatus,
+    playerProgress,
+    playerUpdateUrl,
+    playerPlay,
+    playerPause,
+    playerUpdateTime
+  } = usePlayer(audioRef);
+
+  console.log(playerUrl,
+    playerStatus,
+    playerProgress
+  );
+
   const dispatch = useAppDispatch();
   const selectState = (state: RootState): State => {
     return {
-      loading     : state.main.loading,
-      currentSong : state.main.currentSong,
-      songStatus  : state.main.songStatus
+      loading : state.main.loading
     }
   };
   const state: State = useAppSelector(selectState);
-
-  console.log(state)
   
   useEffect(() => {
     // on mount
@@ -50,26 +63,18 @@ const Main: NextPage = () => {
 
   const onSelectSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      // console.log(URL.createObjectURL(e.target.files[0]))
-      // dispatch(currentSongChange(e.target.files[0]));
-      dispatch(currentSongChange(URL.createObjectURL(e.target.files[0])));
+      playerUpdateUrl(URL.createObjectURL(e.target.files[0]));
     }
   };
 
   const onPlayButtonClick = () => {
     if (audioRef.current) {
-      if (state.songStatus === SongStatus.STOP) {
-        audioRef.current.load();
-        audioRef.current.play();
-        dispatch(songStatusChange(SongStatus.PLAY));
-
-      } else if (state.songStatus === SongStatus.PLAY) {
-        audioRef.current.pause();
-        dispatch(songStatusChange(SongStatus.PAUSE));
-
-      } else if (state.songStatus === SongStatus.PAUSE) {
-        audioRef.current.play();
-        dispatch(songStatusChange(SongStatus.PLAY));
+      if (playerStatus === PlayerStatus.STOP) {
+        playerPlay();
+      } else if (playerStatus === PlayerStatus.PLAY) {
+        playerPause();
+      } else if (playerStatus === PlayerStatus.PAUSE) {
+        playerPlay();
       }
     }
   };
@@ -105,14 +110,14 @@ const Main: NextPage = () => {
 
         <div className={styles.buttonsContainer}>
           <audio ref={audioRef}>
-            <source src={state.currentSong} />
+            <source src={playerUrl} />
           </audio>
 
           <div
             className={styles.playButton}
             onClick={onPlayButtonClick}
           >
-            {state.songStatus === SongStatus.PLAY ?
+            {playerStatus === PlayerStatus.PLAY ?
               <i className="material-icons">pause</i>
               :
               <i className="material-icons">play_arrow</i>
