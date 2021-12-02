@@ -13,6 +13,9 @@ import {
   useAppSelector,
   useAppDispatch
 } from '../../hooks';
+import {
+  getFilesFromDirectory
+} from '../../utils';
 // import {
 // } from './components';
 import {
@@ -38,7 +41,7 @@ const Main: NextPage = () => {
     playerUpdateTime
   } = usePlayer(audioRef, rangeRef);
 
-  console.log(playerInfo)
+  // console.log(playerInfo)
 
   const dispatch = useAppDispatch();
   const selectState = (state: RootState): State => {
@@ -58,16 +61,51 @@ const Main: NextPage = () => {
 
   const onSelectSongButtonClick = () => {
     if (inputSongRef && inputSongRef.current) {
-      inputSongRef.current.click();
+      // inputSongRef.current.click();
+
+      async function getFile() {
+        // open file picker
+        const directoryHandle = await window.showDirectoryPicker();
+        const files = await getFilesFromDirectory(directoryHandle, 'mp3');
+        console.log(files)
+
+        // const subDir = await directoryHandle.getDirectoryHandle(files[32].relativePath, {create: false});
+        // console.log(subDir)
+
+        
+
+        // for await (const entry of directoryHandle.values()) {
+        //   console.log(entry.kind, entry.name);
+        // }
+
+        // if (fileHandle.kind === 'file') {
+        //   // run file code
+        // } else if (fileHandle.kind === 'directory') {
+        //   // run directory code
+        // }
+      }
+
+      getFile();
     }
   };
 
   const onSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
 
+      // console.log(e.target.files[0])
+      // const blob = new Blob([JSON.stringify(e.target.files[0])], {type : 'application/json'});
+      // console.log(blob)
+      // const reader = new FileReader();
+      // reader.addEventListener('loadend', () => {
+      //   console.log(reader.result)
+      // });
+      // reader.readAsArrayBuffer(blob);
+
+      // console.log(e.target.files[0])
+
       jsmediatags.read(e.target.files[0], {
         onSuccess: function(result) {
-          console.log(result);
+          // console.log(result)
           const { data, format } = result.tags.picture;
           let base64String = "";
           for (const i = 0; i < data.length; i++) {
@@ -88,26 +126,6 @@ const Main: NextPage = () => {
           console.log(':(', error.type, error.info);
         }
       });
-
-      // var file = e.target.files[0];
-      // var reader = new FileReader();
-      // reader.onload = function(){
-      //   const buffer = reader.result;
-
-      //   const view = new DataView(buffer);
-      //   const cl = view.getInt16(view.byteLength - 128);
-      //   console.log(cl)
-      // };
-      // reader.readAsArrayBuffer(file);
-
-
-      // console.log(e.target.files[0]);
-      // playerUpdateFile(
-      //   URL.createObjectURL(e.target.files[0]),
-      //   {
-      //     name: e.target.files[0].name
-      //   }
-      // );
     }
   };
 
