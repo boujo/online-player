@@ -6,26 +6,20 @@ export enum PlayerStatus {
   PAUSE
 };
 
-const usePlayer = (playerRef) => {
+const usePlayer = (playerRef, sliderRef) => {
   const [ url, setUrl ] = useState('');
+  const [ info, setInfo ] = useState({});
   const [ status, setStatus ] = useState(PlayerStatus.STOP);
-  const [ progress, setProgress ] = useState(0);
 
   // if for any reason status changed => player will update
   useEffect(() => {
-    console.log('status changed')
     if (playerRef && playerRef.current) {
       if (status === PlayerStatus.PLAY) {
         playerRef.current.play();
-        console.log('play');
-
       } else if (status === PlayerStatus.PAUSE) {
         playerRef.current.pause();
-        console.log('pause');
-  
       } else if (status === PlayerStatus.STOP) {
         // playerRef.current.stop();
-        // console.log('stop');
       }
     }
     return () => {
@@ -34,13 +28,15 @@ const usePlayer = (playerRef) => {
 
   useEffect(() => {
     playerRef.current.load();
+    sliderRef.current.value = 0;
 
     return () => {
     }
   }, [url])
 
-  const updateUrl = (url) => {
+  const updateFile = (url, info) => {
     setUrl(url);
+    setInfo(info);
   };
 
   const play = () => {
@@ -51,19 +47,38 @@ const usePlayer = (playerRef) => {
     setStatus(PlayerStatus.PAUSE);
   };
 
+  const updateProgress = (e) => {
+    if (playerRef.current && playerRef.current.currentTime) {
+      const progress = parseInt(e.target.value);
+      const value = (progress / 100) * parseInt(playerRef.current.duration);
+      playerRef.current.currentTime = value;
+    }
+  };
+
   const updateTime = () => {
-    const progress = (playerRef.current.currentTime / playerRef.current.duration) / 100;
-    setProgress(progress);
+    if (
+      sliderRef.current &&
+      sliderRef.current.value &&
+      playerRef.current &&
+      playerRef.current.currentTime &&
+      playerRef.current.duration
+    ) {
+      const progress = Math.floor((parseInt(playerRef.current.currentTime) / parseInt(playerRef.current.duration)) * 100);
+      if (parseInt(sliderRef.current.value) !== progress) {
+        sliderRef.current.value = progress;
+      }
+    }
   };
 
   return {
-    playerUrl        : url,
-    playerStatus     : status,
-    playerProgress   : progress,
-    playerUpdateUrl  : updateUrl,
-    playerPlay       : play,
-    playerPause      : pause,
-    playerUpdateTime : updateTime
+    playerUrl            : url,
+    playerInfo           : info,
+    playerStatus         : status,
+    playerUpdateFile     : updateFile,
+    playerPlay           : play,
+    playerPause          : pause,
+    playerUpdateProgress : updateProgress,
+    playerUpdateTime     : updateTime
   };
 };
 

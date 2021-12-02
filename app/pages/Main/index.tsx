@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import jsmediatags from "jsmediatags";
 
 // import {
+//   Range
 // } from '../../components';
 import { RootState } from '../../store';
 import {
@@ -23,21 +25,20 @@ import styles from './index.module.scss';
 const Main: NextPage = () => {
   const inputSongRef = useRef(null);
   const audioRef = useRef(null);
+  const rangeRef = useRef(null);
 
   const {
     playerUrl,
+    playerInfo,
     playerStatus,
-    playerProgress,
-    playerUpdateUrl,
+    playerUpdateFile,
     playerPlay,
     playerPause,
+    playerUpdateProgress,
     playerUpdateTime
-  } = usePlayer(audioRef);
+  } = usePlayer(audioRef, rangeRef);
 
-  console.log(playerUrl,
-    playerStatus,
-    playerProgress
-  );
+  console.log(playerInfo)
 
   const dispatch = useAppDispatch();
   const selectState = (state: RootState): State => {
@@ -61,9 +62,52 @@ const Main: NextPage = () => {
     }
   };
 
-  const onSelectSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      playerUpdateUrl(URL.createObjectURL(e.target.files[0]));
+
+      jsmediatags.read(e.target.files[0], {
+        onSuccess: function(result) {
+          console.log(result);
+          const { data, format } = result.tags.picture;
+          let base64String = "";
+          for (const i = 0; i < data.length; i++) {
+            base64String += String.fromCharCode(data[i]);
+          }
+          const cover = `data:${data.format};base64,${window.btoa(base64String)}`;
+          playerUpdateFile(
+            URL.createObjectURL(e.target.files[0]),
+            {
+              name: e.target.files[0].name,
+              album: result.tags.album,
+              artist: result.tags.artist,
+              cover
+            }
+          );
+        },
+        onError: function(error) {
+          console.log(':(', error.type, error.info);
+        }
+      });
+
+      // var file = e.target.files[0];
+      // var reader = new FileReader();
+      // reader.onload = function(){
+      //   const buffer = reader.result;
+
+      //   const view = new DataView(buffer);
+      //   const cl = view.getInt16(view.byteLength - 128);
+      //   console.log(cl)
+      // };
+      // reader.readAsArrayBuffer(file);
+
+
+      // console.log(e.target.files[0]);
+      // playerUpdateFile(
+      //   URL.createObjectURL(e.target.files[0]),
+      //   {
+      //     name: e.target.files[0].name
+      //   }
+      // );
     }
   };
 
@@ -92,24 +136,50 @@ const Main: NextPage = () => {
           className={styles.selectSongButton}
           onClick={onSelectSongButtonClick}
         >
-          <input type="file" ref={inputSongRef} onChange={onSelectSongChange} />
+          <input type="file" ref={inputSongRef} onChange={onSongChange} />
           Select Song
         </div>
 
-        <div className={styles.cover}>
-          <div className={styles.coverImage}>
-            <img src="" alt="" />
-          </div>
-          <div className={styles.artist}>artist</div>
-          <div className={styles.name}>name</div>
+        <div className={styles.info}>
+          {playerInfo.cover ?
+            <div className={styles.cover}>
+              <img src={playerInfo.cover} alt="" />
+            </div>
+            :
+            null
+          }
+          {playerInfo.artist ?
+            <div className={styles.artist}>{playerInfo.artist}</div>
+            :
+            null
+          }
+          {playerInfo.name ?
+            <div className={styles.name}>{playerInfo.name}</div>
+            :
+            null
+          }
         </div>
 
-        <div className={styles.slider}>
-          <input type="range" min="1" max="100" value="50" />
+        <div className={styles.range}>
+          <input
+            ref={rangeRef}
+            type="range"
+            min={0}
+            max={100}
+            onChange={playerUpdateProgress}
+          />
+
+          {/* <div className={styles.rangeFilled} /> */}
+          {/* <Range
+            onChange={playerUpdateProgress}
+          /> */}
         </div>
 
         <div className={styles.buttonsContainer}>
-          <audio ref={audioRef}>
+          <audio
+            ref={audioRef}
+            onTimeUpdate={playerUpdateTime}
+          >
             <source src={playerUrl} />
           </audio>
 
