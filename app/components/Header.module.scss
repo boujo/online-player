@@ -1,0 +1,28 @@
+@import '../../styles/environment';
+
+$height: 40px;
+
+.container {
+  width: 100%;
+  height: $height;
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  background-color: $colorPrimary;
+}
+  .selectDirectoryButton {
+    height: 100%;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorLightGray;
+    font-size: 12px;
+    color: $colorBlack;
+    border-radius: $borderRadius;
+  }
+
+  .middle {
+    flex: 1;
+  }

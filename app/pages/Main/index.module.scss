@@ -3,30 +3,14 @@
 
 .container {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
   .main {
-    width: 100%;
-    height: 100vh;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-  }
-  .selectDirectoryButton {
-    width: 100%;
-    height: 40px;
-    margin: 20px 0 0 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $colorPrimary;
-    color: $colorWhite;
-    border-radius: $borderRadius;
-  }
-
-  .list {
-    flex: 1;
-    margin: 20px 0 0 0;
-    border-radius: $borderRadius;
     overflow: auto;
   }

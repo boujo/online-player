@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { openDB, deleteDB } from "idb";
 
 import {
+  Header,
   Player
 } from '../../components';
 import { RootState } from '../../store';
@@ -62,34 +63,29 @@ const Main: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.main}>
-        <div
-          className={styles.selectDirectoryButton}
-          onClick={onSelectDirectoryButtonClick}
-        >
-          Select Directory
-        </div>
+      <Header
+        onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
+      />
 
-        <div className={styles.list}>
-          {state.list.map(function(item, index) {
-            return (
-              <Item
-                key={item.path}
-                index={index}
-                path={item.path}
-                name="name"
-                artist="artist"
-                image=""
-                onSelect={onSongChange}
-              />
-            );
-          })}
-        </div>
+      <div className={styles.main}>
+        {state.list.map(function(item, index) {
+          return (
+            <Item
+              key={item.path}
+              index={index}
+              path={item.path}
+              name="name"
+              artist="artist"
+              image=""
+              onSelect={onSongChange}
+            />
+          );
+        })}
       </div>
 
-      <Player
+      {/* <Player
         file={state.selectedFile}
-      />
+      /> */}
     </div>
   );
 }
