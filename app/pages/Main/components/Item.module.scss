@@ -31,6 +31,10 @@ $height: 50px;
     margin: 0 8px 0 0;
     border-radius: $borderRadius;
     overflow: hidden;
+
+    img {
+      width: 100%;
+    }
   }
 
   .info {

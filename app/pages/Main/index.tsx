@@ -74,18 +74,19 @@ const Main: NextPage = () => {
               key={item.path}
               index={index}
               path={item.path}
-              name="name"
-              artist="artist"
-              image=""
+              name={item.name}
+              artist={item.artist}
+              title={item.title}
+              cover={item.cover}
               onSelect={onSongChange}
             />
           );
         })}
       </div>
 
-      {/* <Player
+      <Player
         file={state.selectedFile}
-      /> */}
+      />
     </div>
   );
 }

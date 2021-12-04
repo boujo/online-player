@@ -6,7 +6,7 @@ type ComponentProps = {
   path    : string,
   name    : string,
   artist  : string,
-  image   : string,
+  cover   : string,
   onSelect : () => void
 };
 
@@ -15,11 +15,11 @@ const defaultProps = {
   path    : '',
   name    : '',
   artist  : '',
-  image   : '',
+  cover   : '',
   onSelect : () => {}
 };
 
-const Item = ({ index, path, name, artist, image, onSelect }: ComponentProps): JSX.Element => {
+const Item = ({ index, path, name, artist, cover, onSelect }: ComponentProps): JSX.Element => {
   return (
     <div
       className={styles.container}
@@ -28,18 +28,18 @@ const Item = ({ index, path, name, artist, image, onSelect }: ComponentProps): J
       }}
     >
 
-      {image === '' ?
-        <div className={styles.imagePlaceholder}>
-          <i className="material-icons">person</i>
+      {cover ?
+        <div className={styles.image}>
+          <img src={cover} alt={name} />
         </div>
         :
-        <div className={styles.image}>
-          <img src={image} alt={name} />
+        <div className={styles.imagePlaceholder}>
+          <i className="material-icons">image</i>
         </div>
       }
 
       <div className={styles.info}>
-        <div className={styles.name}>{path}</div>
+        <div className={styles.name}>{name}</div>
         <div className={styles.artist}>{artist}</div>
       </div>
 
