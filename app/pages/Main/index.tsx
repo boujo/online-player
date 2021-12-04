@@ -8,12 +8,12 @@ import {
 } from '../../components';
 import { RootState } from '../../store';
 import {
-  PlayerStatus,
   useAppSelector,
   useAppDispatch
 } from '../../hooks';
-// import {
-// } from './components';
+import {
+  Item
+} from './components';
 import {
   State,
   initial,
@@ -73,15 +73,15 @@ const Main: NextPage = () => {
         <div className={styles.list}>
           {state.list.map(function(item, index) {
             return (
-              <div
+              <Item
                 key={item.path}
-                className={styles.item}
-                onClick={function() {
-                  onSongChange(item.path, index);
-                }}
-              >
-                {item.path}
-              </div>
+                index={index}
+                path={item.path}
+                name="name"
+                artist="artist"
+                image=""
+                onClick={onSongChange}
+              />
             );
           })}
         </div>
