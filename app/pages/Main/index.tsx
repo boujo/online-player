@@ -1,144 +1,57 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import jsmediatags from "jsmediatags";
+import { openDB, deleteDB } from "idb";
 
-// import {
-//   Range
-// } from '../../components';
+import {
+  Player
+} from '../../components';
 import { RootState } from '../../store';
 import {
-  usePlayer,
   PlayerStatus,
   useAppSelector,
   useAppDispatch
 } from '../../hooks';
-import {
-  getFilesFromDirectory
-} from '../../utils';
 // import {
 // } from './components';
 import {
   State,
-  initial
+  initial,
+  updateFiles,
+  selectFile
 } from './slice';
 
 import styles from './index.module.scss';
 
 const Main: NextPage = () => {
-  const inputSongRef = useRef(null);
-  const audioRef = useRef(null);
-  const rangeRef = useRef(null);
-
-  const {
-    playerUrl,
-    playerInfo,
-    playerStatus,
-    playerUpdateFile,
-    playerPlay,
-    playerPause,
-    playerUpdateProgress,
-    playerUpdateTime
-  } = usePlayer(audioRef, rangeRef);
-
-  // console.log(playerInfo)
-
   const dispatch = useAppDispatch();
   const selectState = (state: RootState): State => {
     return {
-      loading : state.main.loading
+      loading       : state.main.loading,
+      list          : state.main.list,
+      selectedIndex : state.main.selectedIndex,
+      selectedFile  : state.main.selectedFile
     }
   };
   const state: State = useAppSelector(selectState);
+
+  // console.log(playerInfo)
   
   useEffect(() => {
     // on mount
-    dispatch(initial());
+    dispatch(initial({ openDB }));
 
     return () => {
     }
   }, [])
 
-  const onSelectSongButtonClick = () => {
-    if (inputSongRef && inputSongRef.current) {
-      // inputSongRef.current.click();
-
-      async function getFile() {
-        // open file picker
-        const directoryHandle = await window.showDirectoryPicker();
-        const files = await getFilesFromDirectory(directoryHandle, 'mp3');
-        console.log(files)
-
-        // const subDir = await directoryHandle.getDirectoryHandle(files[32].relativePath, {create: false});
-        // console.log(subDir)
-
-        
-
-        // for await (const entry of directoryHandle.values()) {
-        //   console.log(entry.kind, entry.name);
-        // }
-
-        // if (fileHandle.kind === 'file') {
-        //   // run file code
-        // } else if (fileHandle.kind === 'directory') {
-        //   // run directory code
-        // }
-      }
-
-      getFile();
-    }
+  const onSelectDirectoryButtonClick = () => {
+    dispatch(updateFiles({ openDB, deleteDB }));
   };
 
-  const onSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-
-      // console.log(e.target.files[0])
-      // const blob = new Blob([JSON.stringify(e.target.files[0])], {type : 'application/json'});
-      // console.log(blob)
-      // const reader = new FileReader();
-      // reader.addEventListener('loadend', () => {
-      //   console.log(reader.result)
-      // });
-      // reader.readAsArrayBuffer(blob);
-
-      // console.log(e.target.files[0])
-
-      jsmediatags.read(e.target.files[0], {
-        onSuccess: function(result) {
-          // console.log(result)
-          const { data, format } = result.tags.picture;
-          let base64String = "";
-          for (const i = 0; i < data.length; i++) {
-            base64String += String.fromCharCode(data[i]);
-          }
-          const cover = `data:${data.format};base64,${window.btoa(base64String)}`;
-          playerUpdateFile(
-            URL.createObjectURL(e.target.files[0]),
-            {
-              name: e.target.files[0].name,
-              album: result.tags.album,
-              artist: result.tags.artist,
-              cover
-            }
-          );
-        },
-        onError: function(error) {
-          console.log(':(', error.type, error.info);
-        }
-      });
-    }
-  };
-
-  const onPlayButtonClick = () => {
-    if (audioRef.current) {
-      if (playerStatus === PlayerStatus.STOP) {
-        playerPlay();
-      } else if (playerStatus === PlayerStatus.PLAY) {
-        playerPause();
-      } else if (playerStatus === PlayerStatus.PAUSE) {
-        playerPlay();
-      }
-    }
+  // const onSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSongChange = (path, index) => {
+    dispatch(selectFile({ openDB, path, index }));
   };
 
   return (
@@ -151,68 +64,32 @@ const Main: NextPage = () => {
 
       <div className={styles.main}>
         <div
-          className={styles.selectSongButton}
-          onClick={onSelectSongButtonClick}
+          className={styles.selectDirectoryButton}
+          onClick={onSelectDirectoryButtonClick}
         >
-          <input type="file" ref={inputSongRef} onChange={onSongChange} />
-          Select Song
+          Select Directory
         </div>
 
-        <div className={styles.info}>
-          {playerInfo.cover ?
-            <div className={styles.cover}>
-              <img src={playerInfo.cover} alt="" />
-            </div>
-            :
-            null
-          }
-          {playerInfo.artist ?
-            <div className={styles.artist}>{playerInfo.artist}</div>
-            :
-            null
-          }
-          {playerInfo.name ?
-            <div className={styles.name}>{playerInfo.name}</div>
-            :
-            null
-          }
-        </div>
-
-        <div className={styles.range}>
-          <input
-            ref={rangeRef}
-            type="range"
-            min={0}
-            max={100}
-            onChange={playerUpdateProgress}
-          />
-
-          {/* <div className={styles.rangeFilled} /> */}
-          {/* <Range
-            onChange={playerUpdateProgress}
-          /> */}
-        </div>
-
-        <div className={styles.buttonsContainer}>
-          <audio
-            ref={audioRef}
-            onTimeUpdate={playerUpdateTime}
-          >
-            <source src={playerUrl} />
-          </audio>
-
-          <div
-            className={styles.playButton}
-            onClick={onPlayButtonClick}
-          >
-            {playerStatus === PlayerStatus.PLAY ?
-              <i className="material-icons">pause</i>
-              :
-              <i className="material-icons">play_arrow</i>
-            }
-          </div>
+        <div className={styles.list}>
+          {state.list.map(function(item, index) {
+            return (
+              <div
+                key={item.path}
+                className={styles.item}
+                onClick={function() {
+                  onSongChange(item.path, index);
+                }}
+              >
+                {item.path}
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      <Player
+        file={state.selectedFile}
+      />
     </div>
   );
 }

@@ -1,1 +1,2 @@
-export * from './GetFilesFromDirectory';
+export * from './GetFilesListFromDirectory';
+export * from './ReadFileFromDirectory';

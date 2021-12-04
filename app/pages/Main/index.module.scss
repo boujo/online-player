@@ -5,25 +5,47 @@
 }
   .main {
     width: 100%;
+    height: 100vh;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .selectDirectoryButton {
+    width: 100%;
+    height: 40px;
+    margin: 20px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorPrimary;
+    color: $colorWhite;
+    border-radius: $borderRadius;
+  }
+
+  .list {
+    flex: 1;
+    margin: 20px 0 20px 0;
+    background-color: $colorLightGray;
+    border-radius: $borderRadius;
+    overflow: auto;
+  }
+    .item {
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 8px;
+      color: $colorBlack;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+  .player {
+    width: 100%;
     height: 100%;
     padding: 0 20px;
   }
-    .selectSongButton {
-      width: 100%;
-      height: 40px;
-      margin: 20px 0 0 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: $colorPrimary;
-      color: $colorWhite;
-      border-radius: $borderRadius;
-
-      input {
-        display: none;
-      }
-    }
-
     .info {
       width: 100%;
       height: calc(100vw - 40px);

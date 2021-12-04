@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import jsmediatags from "jsmediatags";
 
 export enum PlayerStatus {
   STOP,
@@ -6,10 +7,40 @@ export enum PlayerStatus {
   PAUSE
 };
 
-const usePlayer = (playerRef, sliderRef) => {
+const usePlayer = (file, playerRef, sliderRef) => {
   const [ url, setUrl ] = useState('');
   const [ info, setInfo ] = useState({});
   const [ status, setStatus ] = useState(PlayerStatus.STOP);
+
+  useEffect(() => {
+    if (file) {
+      jsmediatags.read(file, {
+        onSuccess: function(result) {
+          // console.log(result)
+          const { data, format } = result.tags.picture;
+          let base64String = "";
+          for (const i = 0; i < data.length; i++) {
+            base64String += String.fromCharCode(data[i]);
+          }
+          const cover = `data:${data.format};base64,${window.btoa(base64String)}`;
+  
+          setUrl(URL.createObjectURL(file));
+          setInfo({
+            name: file.name,
+            album: result.tags.album,
+            artist: result.tags.artist,
+            cover
+          })
+        },
+        onError: function(error) {
+          console.log(':(', error.type, error.info);
+        }
+      });
+    }
+
+    return () => {
+    }
+  }, [file])
 
   // if for any reason status changed => player will update
   useEffect(() => {
@@ -33,11 +64,6 @@ const usePlayer = (playerRef, sliderRef) => {
     return () => {
     }
   }, [url])
-
-  const updateFile = (url, info) => {
-    setUrl(url);
-    setInfo(info);
-  };
 
   const play = () => {
     setStatus(PlayerStatus.PLAY);
@@ -74,7 +100,6 @@ const usePlayer = (playerRef, sliderRef) => {
     playerUrl            : url,
     playerInfo           : info,
     playerStatus         : status,
-    playerUpdateFile     : updateFile,
     playerPlay           : play,
     playerPause          : pause,
     playerUpdateProgress : updateProgress,
