@@ -7,7 +7,7 @@ type ComponentProps = {
   name    : string,
   artist  : string,
   image   : string,
-  onClick : () => void
+  onSelect : () => void
 };
 
 const defaultProps = {
@@ -16,15 +16,15 @@ const defaultProps = {
   name    : '',
   artist  : '',
   image   : '',
-  onClick : () => {}
+  onSelect : () => {}
 };
 
-const Item = ({ index, path, name, artist, image, onClick }: ComponentProps): JSX.Element => {
+const Item = ({ index, path, name, artist, image, onSelect }: ComponentProps): JSX.Element => {
   return (
     <div
       className={styles.container}
       onClick={function() {
-        onClick(path, index);
+        onSelect(path, index);
       }}
     >
 

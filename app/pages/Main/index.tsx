@@ -80,7 +80,7 @@ const Main: NextPage = () => {
                 name="name"
                 artist="artist"
                 image=""
-                onClick={onSongChange}
+                onSelect={onSongChange}
               />
             );
           })}
