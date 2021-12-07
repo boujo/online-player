@@ -38,7 +38,7 @@ const Item = ({ index, path, name, artist, title, cover, selected, onSelect }: C
         </div>
         :
         <div className={styles.imagePlaceholder}>
-          <i className="material-icons">image</i>
+          <i className="material-icons">album</i>
         </div>
       }
 

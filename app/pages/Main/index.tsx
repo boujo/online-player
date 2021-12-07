@@ -5,7 +5,8 @@ import { openDB, deleteDB } from "idb";
 
 import {
   Header,
-  Player
+  Player,
+  Loading
 } from '../../components';
 import { RootState } from '../../store';
 import {
@@ -91,8 +92,15 @@ const Main: NextPage = () => {
             })}
           </div>
         </div>
-
       </div>
+
+      {state.loading ?
+        <div className={styles.loading}>
+          <Loading size="large" />
+        </div>
+        :
+        null
+      }
 
       <Player
         file={state.selectedFile}

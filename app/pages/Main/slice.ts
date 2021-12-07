@@ -108,10 +108,10 @@ export const slice = createSlice({
         state.list = action.payload;
       })
       .addCase(selectFile.pending, (state) => {
-        state.loading = true;
+        // state.loading = true;
       })
       .addCase(selectFile.fulfilled, (state, action) => {
-        state.loading = false;
+        // state.loading = false;
         state.selectedIndex = action.payload.index;
         state.selectedFile = action.payload.file;
       });
