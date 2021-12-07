@@ -84,6 +84,7 @@ const Main: NextPage = () => {
                   artist={item.artist}
                   title={item.title}
                   cover={item.cover}
+                  selected={index === state.selectedIndex}
                   onSelect={onSongChange}
                 />
               );

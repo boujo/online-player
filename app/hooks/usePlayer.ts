@@ -17,20 +17,26 @@ const usePlayer = (file, playerRef, sliderRef) => {
       jsmediatags.read(file, {
         onSuccess: function(result) {
           // console.log(result)
-          const { data, format } = result.tags.picture;
-          let base64String = "";
-          for (const i = 0; i < data.length; i++) {
-            base64String += String.fromCharCode(data[i]);
+          if (result.tags) {
+            let cover = null;
+
+            if (result.tags.picture) {
+              const { data, format } = result.tags.picture;
+              let base64String = "";
+              for (const i = 0; i < data.length; i++) {
+                base64String += String.fromCharCode(data[i]);
+              }
+              cover = `data:${data.format};base64,${window.btoa(base64String)}`;
+            }
+
+            setUrl(URL.createObjectURL(file));
+            setInfo({
+              name: file.name,
+              album: result.tags.album,
+              artist: result.tags.artist,
+              cover
+            });
           }
-          const cover = `data:${data.format};base64,${window.btoa(base64String)}`;
-  
-          setUrl(URL.createObjectURL(file));
-          setInfo({
-            name: file.name,
-            album: result.tags.album,
-            artist: result.tags.artist,
-            cover
-          })
         },
         onError: function(error) {
           console.log(':(', error.type, error.info);
