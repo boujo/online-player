@@ -1,14 +1,14 @@
 @import '../../../../styles/environment';
 
-$height: 50px;
+$height: 40px;
 
 .container {
   width: 100%;
-  height: $height + 16px; // padding 8px top and 8px bottom
+  height: $height + 24px; // padding 8px top and 8px bottom
   display: flex;
   flex-direction: row;
-  padding: 8px;
-  border-bottom: solid 1px $colorLightGray;
+  padding: 12px;
+  // border-bottom: solid 1px $colorLightGray;
 }
   .imagePlaceholder {
     width: $height;

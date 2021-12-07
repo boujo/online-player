@@ -68,20 +68,29 @@ const Main: NextPage = () => {
       />
 
       <div className={styles.main}>
-        {state.list.map(function(item, index) {
-          return (
-            <Item
-              key={item.path}
-              index={index}
-              path={item.path}
-              name={item.name}
-              artist={item.artist}
-              title={item.title}
-              cover={item.cover}
-              onSelect={onSongChange}
-            />
-          );
-        })}
+        <div className={styles.left}>
+          sidebar
+        </div>
+
+        <div className={styles.right}>
+          <div className={styles.list}>
+            {state.list.map(function(item, index) {
+              return (
+                <Item
+                  key={item.path}
+                  index={index}
+                  path={item.path}
+                  name={item.name}
+                  artist={item.artist}
+                  title={item.title}
+                  cover={item.cover}
+                  onSelect={onSongChange}
+                />
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
       <Player
