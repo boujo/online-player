@@ -12,6 +12,11 @@ const defaultProps = {
 const Header = ({ onSelectDirectoryButtonClick }: ComponentProps): JSX.Element => {
   return (
     <div className={styles.container}>
+      <div className={styles.navigation}>
+        <div className={styles.navigationItem}>
+          Tracks
+        </div>
+      </div>
       <div className={styles.middle} />
 
       <div
@@ -19,6 +24,10 @@ const Header = ({ onSelectDirectoryButtonClick }: ComponentProps): JSX.Element =
         onClick={onSelectDirectoryButtonClick}
       >
         Select Directory
+      </div>
+
+      <div className={styles.moreButton}>
+        <i className="material-icons">more_vert</i>
       </div>
     </div>
   );
