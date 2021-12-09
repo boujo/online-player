@@ -54,6 +54,7 @@ const usePlayer = (fileKey, playerRef, sliderRef) => {
                 name: file.name,
                 album: result.tags.album,
                 artist: result.tags.artist,
+                title: result.tags.title,
                 cover
               });
             }

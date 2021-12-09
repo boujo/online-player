@@ -30,7 +30,7 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
   } = usePlayer(fileKey, audioRef, rangeRef);
 
   const onPlayButtonClick = () => {
-    if (audioRef.current) {
+    if (audioRef.current && fileKey !== 0) {
       if (playerStatus === PlayerStatus.STOP) {
         playerPlay();
       } else if (playerStatus === PlayerStatus.PLAY) {
@@ -43,58 +43,90 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.info}>
+      <div className={styles.small}>
         {playerInfo.cover ?
-          <div className={styles.cover}>
+          <div className={styles.smallCover}>
             <img src={playerInfo.cover} alt="" />
           </div>
           :
-          null
+          <div className={styles.smallCoverPlaceholder}>
+            <i className="material-icons">album</i>
+          </div>
         }
-        {playerInfo.artist ?
-          <div className={styles.artist}>{playerInfo.artist}</div>
-          :
-          null
-        }
-        {playerInfo.name ?
-          <div className={styles.name}>{playerInfo.name}</div>
-          :
-          null
-        }
+
+        <div className={styles.smallInfo}>
+          <div className={styles.smallTitle}>{playerInfo.title}</div>
+          <div className={styles.smallArtist}>{playerInfo.artist}</div>
+        </div>
+
+        <div className={styles.smallButtonsContainer}>
+          <div
+            className={styles.smallPlayButton}
+            onClick={onPlayButtonClick}
+          >
+            {playerStatus === PlayerStatus.PLAY ?
+              <i className="material-icons">pause</i>
+              :
+              <i className="material-icons">play_arrow</i>
+            }
+          </div>
+        </div>
       </div>
 
-      <div className={styles.range}>
-        <input
-          ref={rangeRef}
-          type="range"
-          min={0}
-          max={100}
-          onChange={playerUpdateProgress}
-        />
-
-        {/* <div className={styles.rangeFilled} /> */}
-        {/* <Range
-          onChange={playerUpdateProgress}
-        /> */}
-      </div>
-
-      <div className={styles.buttonsContainer}>
-        <audio
-          ref={audioRef}
-          onTimeUpdate={playerUpdateTime}
-        >
-          <source src={playerUrl} />
-        </audio>
-
-        <div
-          className={styles.playButton}
-          onClick={onPlayButtonClick}
-        >
-          {playerStatus === PlayerStatus.PLAY ?
-            <i className="material-icons">pause</i>
+      <div className={styles.main}>
+        <div className={styles.info}>
+          {playerInfo.cover ?
+            <div className={styles.cover}>
+              <img src={playerInfo.cover} alt="" />
+            </div>
             :
-            <i className="material-icons">play_arrow</i>
+            null
           }
+          {playerInfo.artist ?
+            <div className={styles.artist}>{playerInfo.artist}</div>
+            :
+            null
+          }
+          {playerInfo.name ?
+            <div className={styles.name}>{playerInfo.name}</div>
+            :
+            null
+          }
+        </div>
+
+        <div className={styles.range}>
+          <input
+            ref={rangeRef}
+            type="range"
+            min={0}
+            max={100}
+            onChange={playerUpdateProgress}
+          />
+
+          {/* <div className={styles.rangeFilled} /> */}
+          {/* <Range
+            onChange={playerUpdateProgress}
+          /> */}
+        </div>
+
+        <div className={styles.buttonsContainer}>
+          <audio
+            ref={audioRef}
+            onTimeUpdate={playerUpdateTime}
+          >
+            <source src={playerUrl} />
+          </audio>
+
+          <div
+            className={styles.playButton}
+            onClick={onPlayButtonClick}
+          >
+            {playerStatus === PlayerStatus.PLAY ?
+              <i className="material-icons">pause</i>
+              :
+              <i className="material-icons">play_arrow</i>
+            }
+          </div>
         </div>
       </div>
     </div>
