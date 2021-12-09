@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { openDB, deleteDB } from "idb";
 
 import {
   Header,
-  Player,
   Loading
 } from '../../components';
 import { RootState } from '../../store';
@@ -14,31 +14,38 @@ import {
   useAppDispatch
 } from '../../hooks';
 import {
+  State as GlobalState,
+  selectedKeyChange
+} from '../../slice';
+import {
   Item
 } from './components';
 import {
   State,
   initial,
-  updateFiles,
-  selectFile
+  updateFiles
 } from './slice';
 
 import styles from './index.module.scss';
 
 const Main: NextPage = () => {
   const dispatch = useAppDispatch();
+
   const selectState = (state: RootState): State => {
     return {
-      loading       : state.main.loading,
-      list          : state.main.list,
-      selectedIndex : state.main.selectedIndex,
-      selectedFile  : state.main.selectedFile
+      loading : state.main.loading,
+      list    : state.main.list
     }
   };
   const state: State = useAppSelector(selectState);
 
-  // console.log(playerInfo)
-  
+  const selectGlobalState = (state: RootState): GlobalState => {
+    return {
+      selectedKey: state.global.selectedKey
+    }
+  };
+  const globalState: GlobalState = useAppSelector(selectGlobalState);
+
   useEffect(() => {
     // on mount
     dispatch(initial({ openDB }));
@@ -52,9 +59,6 @@ const Main: NextPage = () => {
   };
 
   // const onSongChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const onSongChange = (path, index) => {
-    dispatch(selectFile({ openDB, path, index }));
-  };
 
   return (
     <div className={styles.container}>
@@ -68,6 +72,12 @@ const Main: NextPage = () => {
         onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
       />
 
+      <Link href="/test">
+        <a>
+          go to test
+        </a>
+      </Link>
+
       <div className={styles.main}>
         <div className={styles.left}>
           sidebar
@@ -78,15 +88,17 @@ const Main: NextPage = () => {
             {state.list.map(function(item, index) {
               return (
                 <Item
-                  key={item.path}
+                  key={item.key}
                   index={index}
                   path={item.path}
                   name={item.name}
                   artist={item.artist}
                   title={item.title}
                   cover={item.cover}
-                  selected={index === state.selectedIndex}
-                  onSelect={onSongChange}
+                  selected={item.key === globalState.selectedKey}
+                  onSelect={() => {
+                    dispatch(selectedKeyChange({ key: item.key }));
+                  }}
                 />
               );
             })}
@@ -102,9 +114,9 @@ const Main: NextPage = () => {
         null
       }
 
-      <Player
+      {/* <Player
         file={state.selectedFile}
-      />
+      /> */}
     </div>
   );
 }

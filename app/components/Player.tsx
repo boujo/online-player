@@ -8,14 +8,14 @@ import {
 import styles from './Player.module.scss';
 
 type ComponentProps = {
-  file : object
+  fileKey : number
 };
 
 const defaultProps = {
-  file : {}
+  fileKey : 0
 };
 
-const Player = ({ file }: ComponentProps): JSX.Element => {
+const Player = ({ fileKey }: ComponentProps): JSX.Element => {
   const audioRef = useRef(null);
   const rangeRef = useRef(null);
 
@@ -27,7 +27,7 @@ const Player = ({ file }: ComponentProps): JSX.Element => {
     playerPause,
     playerUpdateProgress,
     playerUpdateTime
-  } = usePlayer(file, audioRef, rangeRef);
+  } = usePlayer(fileKey, audioRef, rangeRef);
 
   const onPlayButtonClick = () => {
     if (audioRef.current) {

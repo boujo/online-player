@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import {
-  getFilesListFromDirectory,
-  readFileFromDirectory
+  getFilesListFromDirectory
 } from '../../utils';
 
 export enum SongStatus {
@@ -12,17 +11,13 @@ export enum SongStatus {
 };
 
 export interface State {
-  loading       : boolean,
-  list          : [],
-  selectedIndex : number,
-  selectedFile  : object
+  loading : boolean,
+  list    : []
 };
 
 const INITIAL_STATE: State = {
-  loading       : false,
-  list          : [],
-  selectedIndex : -1,
-  selectedFile  : null
+  loading : false,
+  list    : []
 };
 
 export const initial = createAsyncThunk(
@@ -30,7 +25,15 @@ export const initial = createAsyncThunk(
   async ({ openDB }) => {
     const storeName = 'list';
     const db = await openDB('online-player', 1);
-    const items = await db.getAll(storeName);
+    // const items = await db.getAll(storeName);
+    const items = [];
+    const keys = await db.getAllKeys(storeName);
+    for (let i = 0; i < keys.length; i++) {
+      const item = await db.get(storeName, keys[i]);
+      items.push(item);
+      items[i].key = keys[i];
+    }
+
     return items;
   }
 );
@@ -73,19 +76,6 @@ export const updateFiles = createAsyncThunk(
   }
 );
 
-export const selectFile = createAsyncThunk(
-  'main/selectFile',
-  async ({ openDB, path, index }) => {
-    // console.log(path)
-    const storeName = 'handles';
-    const db = await openDB('online-player', 1);
-    const handle = await db.get(storeName, 'rootHandle');
-    const file = await readFileFromDirectory(handle, path);
-
-    return { file, index };
-  }
-);
-
 export const slice = createSlice({
   name: 'main',
   initialState: INITIAL_STATE,
@@ -106,14 +96,6 @@ export const slice = createSlice({
       .addCase(updateFiles.fulfilled, (state, action) => {
         state.loading = false;
         state.list = action.payload;
-      })
-      .addCase(selectFile.pending, (state) => {
-        // state.loading = true;
-      })
-      .addCase(selectFile.fulfilled, (state, action) => {
-        // state.loading = false;
-        state.selectedIndex = action.payload.index;
-        state.selectedFile = action.payload.file;
       });
   },
 });

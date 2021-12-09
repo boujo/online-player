@@ -7,11 +7,13 @@ export enum Status {
 };
 
 export interface State {
-  status: Status
+  status: Status,
+  selectedKey: number
 };
 
 const INITIAL_STATE: State = {
-  status: Status.NOT_SET
+  status: Status.NOT_SET,
+  selectedKey: 0
 };
 
 export const slice = createSlice({
@@ -23,10 +25,13 @@ export const slice = createSlice({
     },
     isNotReady: (state) => {
       state.status = Status.NOT_READY;
-    }
+    },
+    selectedKeyChange: (state, action) => {
+      state.selectedKey = action.payload.key;
+    },
   },
 });
 
-export const { isReady, isNotReady } = slice.actions;
+export const { isReady, isNotReady, selectedKeyChange } = slice.actions;
 
 export default slice.reducer;

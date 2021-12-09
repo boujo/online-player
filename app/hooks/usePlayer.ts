@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import jsmediatags from "jsmediatags";
+import { openDB } from "idb";
+import {
+  readFileFromDirectory
+} from '../utils';
 
 export enum PlayerStatus {
   STOP,
@@ -7,46 +11,65 @@ export enum PlayerStatus {
   PAUSE
 };
 
-const usePlayer = (file, playerRef, sliderRef) => {
+const usePlayer = (fileKey, playerRef, sliderRef) => {
   const [ url, setUrl ] = useState('');
   const [ info, setInfo ] = useState({});
   const [ status, setStatus ] = useState(PlayerStatus.STOP);
 
   useEffect(() => {
-    if (file) {
-      jsmediatags.read(file, {
-        onSuccess: function(result) {
-          // console.log(result)
-          if (result.tags) {
-            let cover = null;
+    if (fileKey !== 0) {
+      async function prepareFile() {
+        const db = await openDB('online-player', 1);
+        let fileInfo = null;
+        let file = null;
 
-            if (result.tags.picture) {
-              const { data, format } = result.tags.picture;
-              let base64String = "";
-              for (const i = 0; i < data.length; i++) {
-                base64String += String.fromCharCode(data[i]);
-              }
-              cover = `data:${data.format};base64,${window.btoa(base64String)}`;
-            }
-
-            setUrl(URL.createObjectURL(file));
-            setInfo({
-              name: file.name,
-              album: result.tags.album,
-              artist: result.tags.artist,
-              cover
-            });
-          }
-        },
-        onError: function(error) {
-          console.log(':(', error.type, error.info);
+        {
+          const storeName = 'list';
+          fileInfo = await db.get(storeName, fileKey);
         }
-      });
+
+        {
+          const storeName = 'handles';
+          const handle = await db.get(storeName, 'rootHandle');
+          file = await readFileFromDirectory(handle, fileInfo.path);
+        }
+
+        jsmediatags.read(file, {
+          onSuccess: function(result) {
+            // console.log(result)
+            if (result.tags) {
+              let cover = null;
+  
+              if (result.tags.picture) {
+                const { data, format } = result.tags.picture;
+                let base64String = "";
+                for (const i = 0; i < data.length; i++) {
+                  base64String += String.fromCharCode(data[i]);
+                }
+                cover = `data:${data.format};base64,${window.btoa(base64String)}`;
+              }
+  
+              setUrl(URL.createObjectURL(file));
+              setInfo({
+                name: file.name,
+                album: result.tags.album,
+                artist: result.tags.artist,
+                cover
+              });
+            }
+          },
+          onError: function(error) {
+            console.log(':(', error.type, error.info);
+          }
+        });
+      }
+
+      prepareFile();
     }
 
     return () => {
     }
-  }, [file])
+  }, [fileKey])
 
   // if for any reason status changed => player will update
   useEffect(() => {

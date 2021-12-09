@@ -27,9 +27,7 @@ const Item = ({ index, path, name, artist, title, cover, selected, onSelect }: C
   return (
     <div
       className={`${styles.container} ${selected ? styles.selected : ''}`}
-      onClick={function() {
-        onSelect(path, index);
-      }}
+      onClick={onSelect}
     >
 
       {cover ?
