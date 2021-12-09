@@ -1,4 +1,4 @@
-@import '../../styles/environment';
+@import '../../../styles/environment';
 
 $smallHeight: 48px;
 
@@ -56,6 +56,7 @@ $smallHeight: 48px;
     .smallInfo {
       flex: 1;
       margin: 0 8px 0 0;
+      overflow: hidden;
     }
       .smallTitle {
         width: 100%;

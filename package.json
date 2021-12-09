@@ -20,6 +20,7 @@
     "sass": "^1.43.5"
   },
   "devDependencies": {
+    "@types/jsmediatags": "^3.9.3",
     "@types/node": "16.11.10",
     "@types/react": "17.0.37",
     "eslint": "7.32.0",

@@ -7,7 +7,7 @@ import {
 } from '../../slice';
 import {
   Player
-} from '../';
+} from './';
 
 import styles from './Layout.module.scss';
 
