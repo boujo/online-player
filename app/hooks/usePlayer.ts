@@ -58,6 +58,7 @@ const usePlayer = (fileKey, playerRef, sliderRef) => {
                 dominantColor: fileInfo.dominantColor,
                 cover,
               });
+              setStatus(PlayerStatus.PLAY);
             }
           },
           onError: function(error) {
