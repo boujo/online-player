@@ -41,9 +41,14 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
     }
   };
 
+  let backgroundColor = '';
+  if (playerInfo.dominantColor) {
+    backgroundColor = `rgba(${playerInfo.dominantColor.r}, ${playerInfo.dominantColor.g}, ${playerInfo.dominantColor.b}, 1)`;
+  }
+
   return (
     <div className={styles.container}>
-      <div className={styles.small}>
+      <div className={styles.small} style={{ backgroundColor }}>
         {playerInfo.cover ?
           <div className={styles.smallCover}>
             <img src={playerInfo.cover} alt="" />

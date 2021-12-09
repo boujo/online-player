@@ -7,7 +7,7 @@
 }
   .main {
     width: 100%;
-    height: calc(100vh - 40px);
+    height: calc(100vh - 40px - 48px); // 40px header, 48px player
     display: flex;
     flex-direction: row;
     overflow: hidden;

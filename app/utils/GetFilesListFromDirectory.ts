@@ -1,7 +1,8 @@
 import jsmediatags from "jsmediatags";
 
 import {
-  compressImage
+  compressImage,
+  getDominantColor
 } from './';
 
 function getFileInfo(file) {
@@ -12,8 +13,10 @@ function getFileInfo(file) {
           if (result.tags) {
             // get cover photo
             let cover = null;
+            let dominantColor = null;
             if (result.tags.picture) {
               const { data, format } = result.tags.picture;
+              dominantColor = await getDominantColor(data, format);
               // reduce image size
               const compressedData = await compressImage(data, format);
               let base64String = "";
@@ -29,7 +32,8 @@ function getFileInfo(file) {
               album: result.tags.album,
               artist: result.tags.artist,
               title: result.tags.title,
-              cover
+              dominantColor,
+              cover,
             });
           } else {
             reject('no result');

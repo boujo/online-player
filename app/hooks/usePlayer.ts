@@ -55,7 +55,8 @@ const usePlayer = (fileKey, playerRef, sliderRef) => {
                 album: result.tags.album,
                 artist: result.tags.artist,
                 title: result.tags.title,
-                cover
+                dominantColor: fileInfo.dominantColor,
+                cover,
               });
             }
           },

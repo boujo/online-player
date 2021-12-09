@@ -71,11 +71,11 @@ const Main: NextPage = () => {
         onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
       />
 
-      <Link href="/test">
+      {/* <Link href="/test">
         <a>
           go to test
         </a>
-      </Link>
+      </Link> */}
 
       <div className={styles.main}>
         <div className={styles.left}>
