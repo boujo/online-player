@@ -31,20 +31,19 @@ import styles from './index.module.scss';
 const Main: NextPage = () => {
   const dispatch = useAppDispatch();
 
-  const selectState = (state: RootState): State => {
+  const state: State = useAppSelector((state: RootState): State => {
     return {
       loading : state.main.loading,
       list    : state.main.list
     }
-  };
-  const state: State = useAppSelector(selectState);
+  });
 
-  const selectGlobalState = (state: RootState): GlobalState => {
+  const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
     return {
-      selectedKey: state.global.selectedKey
+      status      : state.global.status,
+      selectedKey : state.global.selectedKey
     }
-  };
-  const globalState: GlobalState = useAppSelector(selectGlobalState);
+  });
 
   useEffect(() => {
     // on mount
