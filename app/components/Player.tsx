@@ -19,6 +19,8 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
   const audioRef = useRef(null);
   const rangeRef = useRef(null);
 
+  const [isExpand, setIsExpand] = useState(false);
+
   const {
     playerUrl,
     playerInfo,
@@ -41,14 +43,22 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
     }
   };
 
+  const onExpandButtonClick = () => {
+    setIsExpand(true);
+  };
+
+  const onCollapseButtonClick = () => {
+    setIsExpand(false);
+  };
+
   let backgroundColor = '';
   if (playerInfo.dominantColor) {
     backgroundColor = `rgba(${playerInfo.dominantColor.r}, ${playerInfo.dominantColor.g}, ${playerInfo.dominantColor.b}, 1)`;
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.small} style={{ backgroundColor }}>
+    <div className={styles.container} style={{ top: `${isExpand ? '0px' : ''}` }}>
+      <div className={styles.small} style={{ visibility: `${isExpand ? 'hidden' : 'visible'}`, backgroundColor }}>
         {playerInfo.cover ?
           <div className={styles.smallCover}>
             <img src={playerInfo.cover} alt="" />
@@ -76,9 +86,36 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
             }
           </div>
         </div>
+
+        <div
+          className={styles.smallExpandButton}
+          onClick={onExpandButtonClick}
+        >
+          {/* {playerStatus === PlayerStatus.PLAY ?
+            <i className="material-icons">pause</i>
+            :
+            <i className="material-icons">play_arrow</i>
+          } */}
+          <i className="material-icons">expand_less</i>
+        </div>
       </div>
 
-      <div className={styles.main}>
+      <div className={styles.main} style={{ visibility: `${isExpand ? 'visible' : 'hidden'}` }}>
+        <div className={styles.header}>
+          <div className={styles.headerLeft}></div>
+
+          <div className={styles.headerText}>
+            Now Playing
+          </div>
+
+          <div
+            className={styles.headerCollapseButton}
+            onClick={onCollapseButtonClick}
+          >
+            <i className="material-icons">expand_more</i>
+          </div>
+        </div>
+
         <div className={styles.info}>
           {playerInfo.cover ?
             <div className={styles.cover}>

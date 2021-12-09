@@ -9,6 +9,7 @@ $smallHeight: 48px;
   top: calc(100vh - $smallHeight);
   left: 0;
   padding: 0 20px;
+  background-color: $colorWhite;
 }
   .small {
     width: 100%;
@@ -102,15 +103,60 @@ $smallHeight: 48px;
         }
       }
 
+    .smallExpandButton {
+      width: $smallHeight - 16px;
+      height: $smallHeight - 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: ($smallHeight - 16px) / 2;
+      // background-color: $colorPrimary;
+
+      i {
+        font-size: 20px;
+        color: $colorBlack;
+      }
+    }
+
   .main {
     width: 100%;
     height: 100%;
-    visibility: hidden;
+    // visibility: hidden;
   }
+    .header {
+      width: 100%;
+      height: 48px;
+      display: flex;
+      flex-direction: row;
+    }
+      .headerLeft {
+        width: 48px;
+        height: 100%;
+      }
+
+      .headerText {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .headerCollapseButton {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          font-size: 24px;
+        }
+      }
+
     .info {
       width: 100%;
       height: calc(100vw - 40px);
-      margin: 20px 0 0 0;
+      // margin: 20px 0 0 0;
       position: relative;
       display: flex;
       flex-direction: column;
