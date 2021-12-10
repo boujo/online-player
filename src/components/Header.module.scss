@@ -1,0 +1,43 @@
+@import '../styles/environment';
+
+$height: 40px;
+
+.container {
+  width: 100%;
+  height: $height;
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  background-color: $colorPrimary;
+  // border-radius: $borderRadius;
+}
+  .moreButton {
+    width: $height - 8px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      font-size: 20px;
+      color: $colorBlack;
+    }
+  }
+
+  .selectDirectoryButton {
+    height: 100%;
+    margin: 0 8px 0 0;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorLightGray;
+    font-size: 12px;
+    color: $colorBlack;
+    border-radius: $borderRadius;
+  }
+
+  .middle {
+    flex: 1;
+  }
