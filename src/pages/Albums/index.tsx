@@ -12,8 +12,7 @@ import {
   useAppDispatch
 } from '../../hooks';
 import {
-  State as GlobalState,
-  selectedKeyChange
+  State as GlobalState
 } from '../../slice';
 // import {
 //   Item
@@ -39,8 +38,8 @@ function Albums() {
 
   const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
     return {
-      status      : state.global.status,
-      selectedKey : state.global.selectedKey
+      status       : state.global.status,
+      selectedFile : state.global.selectedFile
     }
   });
 

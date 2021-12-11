@@ -56,6 +56,7 @@ async function getFileInfo(fileKey: number) {
     const mediaTags = await getMediaTags(file);
   
     const info = {
+      key: fileKey,
       name: file.name,
       url: URL.createObjectURL(file),
       album: mediaTags.album,

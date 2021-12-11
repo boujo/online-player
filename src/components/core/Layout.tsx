@@ -22,8 +22,8 @@ const defaultProps = {
 function Layout({ children }: ComponentProps): JSX.Element {
   const state: State = useAppSelector((state: RootState): State => {
     return {
-      status: state.global.status,
-      selectedKey: state.global.selectedKey
+      status       : state.global.status,
+      selectedFile : state.global.selectedFile,
     }
   });
 
@@ -32,7 +32,7 @@ function Layout({ children }: ComponentProps): JSX.Element {
       {children}
 
       <Player
-        fileKey={state.selectedKey}
+        fileInfo={state.selectedFile}
       />
     </div>
   );

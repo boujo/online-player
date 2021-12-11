@@ -1,56 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  getFileInfo
-} from '../../utils';
+  SelectedFile
+} from '../../slice';
 
 import styles from './Player.module.scss';
 
 enum Status {
-  // LOAD,
   STOP,
   PLAY,
   PAUSE
 };
 
-interface Info {
-  name: string,
-  url: string,
-  album: string,
-  artist: string,
-  title: string,
-  cover: string,
-  dominantColor: { r: string, g: string, b: string }
-};
-
 type ComponentProps = {
-  fileKey : number
+  fileInfo : SelectedFile
 };
 
 const defaultProps = {
-  fileKey : 0
+  fileInfo : null
 };
 
-const Player = ({ fileKey }: ComponentProps): JSX.Element => {
+const Player = ({ fileInfo }: ComponentProps): JSX.Element => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const rangeRef = useRef<HTMLInputElement>(null);
 
-  const [ info, setInfo ] = useState<Info>({
-    name: '', url: '', album: '', artist: '', title: '', cover: '', dominantColor: { r: '', g: '', b: '' }
-  });
   const [ status, setStatus ] = useState<Status>(Status.STOP);
   const [ isExpand, setIsExpand ] = useState<boolean>(false);
-  
-  useEffect(() => {
-    if (fileKey !== 0) {
-      getInfo();
-    }
-
-    return () => {
-    }
-  }, [fileKey])
 
   useEffect(() => {
-    if (fileKey !== 0) {
+    if (fileInfo && fileInfo.key !== -1) {
       loadAudio();
       playAudio();
       setStatus(Status.PLAY);
@@ -58,16 +35,7 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
 
     return () => {
     }
-  }, [info])
-
-  const getInfo = async () => {
-    try {
-      const fileInfo = await getFileInfo(fileKey);
-      setInfo(fileInfo);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  }, [fileInfo])
 
   const loadAudio = () => {
     if (
@@ -86,7 +54,7 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
   };
 
   const playAudio = () => {
-    if (audioRef && audioRef.current && fileKey !== 0) {
+    if (audioRef && audioRef.current && fileInfo) {
       audioRef.current.play();
     }
   };
@@ -138,8 +106,8 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
   };
 
   let backgroundColor = '';
-  if (info && info.dominantColor) {
-    backgroundColor = `rgba(${info.dominantColor.r}, ${info.dominantColor.g}, ${info.dominantColor.b}, 0.5)`;
+  if (fileInfo && fileInfo.dominantColor) {
+    backgroundColor = `rgba(${fileInfo.dominantColor.r}, ${fileInfo.dominantColor.g}, ${fileInfo.dominantColor.b}, 0.5)`;
   }
 
   return (
@@ -149,13 +117,13 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
         onTimeUpdate={onAudioTimeUpdate}
         onEnded={onAudioEnded}
       >
-        <source src={info.url} />
+        <source src={fileInfo.url} />
       </audio>
 
       <div className={styles.small} style={{ visibility: `${isExpand ? 'hidden' : 'visible'}`, backgroundColor }}>
-        {info.cover ?
+        {fileInfo.cover ?
           <div className={styles.smallCover}>
-            <img src={info.cover} alt="" />
+            <img src={fileInfo.cover} alt="" />
           </div>
           :
           <div className={styles.smallCoverPlaceholder}>
@@ -164,8 +132,8 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
         }
 
         <div className={styles.smallInfo}>
-          <div className={styles.smallTitle}>{info.title}</div>
-          <div className={styles.smallArtist}>{info.artist}</div>
+          <div className={styles.smallTitle}>{fileInfo.title}</div>
+          <div className={styles.smallArtist}>{fileInfo.artist}</div>
         </div>
 
         <div className={styles.smallButtonsContainer}>
@@ -211,20 +179,20 @@ const Player = ({ fileKey }: ComponentProps): JSX.Element => {
         </div>
 
         <div className={styles.info}>
-          {info.cover ?
+          {fileInfo.cover ?
             <div className={styles.cover}>
-              <img src={info.cover} alt="" />
+              <img src={fileInfo.cover} alt="" />
             </div>
             :
             null
           }
-          {info.artist ?
-            <div className={styles.artist}>{info.artist}</div>
+          {fileInfo.artist ?
+            <div className={styles.artist}>{fileInfo.artist}</div>
             :
             null
           }
-          {info.name ?
-            <div className={styles.name}>{info.name}</div>
+          {fileInfo.name ?
+            <div className={styles.name}>{fileInfo.name}</div>
             :
             null
           }

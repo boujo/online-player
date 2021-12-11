@@ -9,6 +9,7 @@ type ComponentProps = {
   cover    : string,
   title    : string,
   selected : boolean,
+  color    : { r: number, g: number, b: number },
   onSelect : () => void
 };
 
@@ -20,13 +21,17 @@ const defaultProps = {
   title    : '',
   cover    : '',
   selected : false,
+  color    : { r: 0, g: 0, b: 0 },
   onSelect : () => {}
 };
 
-const Item = ({ index, path, name, artist, title, cover, selected, onSelect }: ComponentProps): JSX.Element => {
+const Item = ({ index, path, name, artist, title, cover, selected, color, onSelect }: ComponentProps): JSX.Element => {
   return (
     <div
-      className={`${styles.container} ${selected ? styles.selected : ''}`}
+      className={styles.container}
+      style={{
+        backgroundColor: selected ? `rgba(${color.r}, ${color.g}, ${color.b}, 0.2)` : ''
+      }}
       onClick={onSelect}
     >
 
@@ -41,8 +46,23 @@ const Item = ({ index, path, name, artist, title, cover, selected, onSelect }: C
       }
 
       <div className={styles.info}>
-        <div className={styles.name}>{title}</div>
-        <div className={styles.artist}>{artist}</div>
+        <div
+          className={styles.name}
+          style={{
+            color: selected ? `rgb(${color.r}, ${color.g}, ${color.b})` : ''
+          }}
+        >
+          {title}
+        </div>
+
+        <div
+          className={styles.artist}
+          style={{
+            color: selected ? `rgba(${color.r}, ${color.g}, ${color.b}, 0.7)` : ''
+          }}
+        >
+          {artist}
+        </div>
       </div>
 
       <div className={styles.moreButton}>

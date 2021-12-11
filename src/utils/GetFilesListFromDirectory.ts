@@ -13,7 +13,7 @@ function getFileInfo(file: File): any {
           if (result.tags) {
             // get cover photo
             let cover = null;
-            let dominantColor = null;
+            let dominantColor = { r: 0, g: 0, b: 0 };
             if (result.tags.picture) {
               const { data, format } = result.tags.picture;
               dominantColor = await getDominantColor(data, format);

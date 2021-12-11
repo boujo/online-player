@@ -11,9 +11,9 @@ $height: 40px;
   border-radius: $borderRadius;
   // border-bottom: solid 1px $colorLightGray;
 
-  &.selected {
-    background-color: rgba($colorPrimary, 0.4);
-  }
+  // &.selected {
+  //   background-color: rgba($colorPrimary, 0.4);
+  // }
 }
   .imagePlaceholder {
     width: $height;

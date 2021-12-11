@@ -63,7 +63,7 @@ function calculateDominantColor(image: any): any {
   return rgb;
 }
 
-function getDominantColor(arrayBuffer: any, format: any) {
+function getDominantColor(arrayBuffer: any, format: any): Promise<{ r: number, g: number, b: number }> {
   return new Promise((resolve, reject) => {
     let base64String = "";
     for (let i = 0; i < arrayBuffer.length; i++) {
