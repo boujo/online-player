@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import global from './slice';
 import main from './pages/Main/slice';
+import tracks from './pages/Tracks/slice';
 
 export const store = configureStore({
   reducer: {
     global,
-    main
+    main,
+    tracks
   }
 });
 

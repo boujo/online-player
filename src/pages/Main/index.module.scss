@@ -10,38 +10,26 @@
     height: calc(100vh - 40px - 48px); // 40px header, 48px player
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
   }
-    .left {
-      width: 100px;
-      height: 100%;
-      display: none;
-    }
+    .goToTracksButton {
+      height: 48px;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba($colorPrimary, 0.2);
+      text-decoration: none;
+      font-size: 16px;
+      color: $colorPrimary;
+      border: none;
+      border-radius: $borderRadius;
 
-    .right {
-      flex: 1;
-      padding: 8px;
-      overflow: auto;
-    }
-      .list {
-        width: 100%;
-        padding: 8px;
-        border: solid 1px $colorLightGray;
-        border-radius: $borderRadius;
+      i {
+        margin-left: 8px;
+        font-size: 20px;
       }
-
-  .loading {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba($colorBlack, 0.3);
-  }
-
-@include tablet {
-  .container {}
-    .main {}
-      .left { display: block; }
-      .list {}
-}
+    }

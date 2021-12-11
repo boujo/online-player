@@ -8,9 +8,41 @@ $height: 40px;
   padding: 4px;
   display: flex;
   flex-direction: row;
-  background-color: $colorPrimary;
+  background-color: $colorLightGray;
   // border-radius: $borderRadius;
 }
+  .navigation {
+    height: 100%;
+  }
+    .navigationItem {
+      height: 100%;
+      float: left;
+      margin: 0 8px;
+      line-height: $height - 8px;
+      border: none;
+      font-size: 14px;
+      text-decoration: none;
+      color: $colorBlack;
+    }
+
+  .middle {
+    flex: 1;
+  }
+
+  .selectDirectoryButton {
+    height: 100%;
+    margin: 0 8px 0 0;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorGray;
+    font-size: 10px;
+    color: $colorWhite;
+    border-radius: $borderRadius;
+  }
+
   .moreButton {
     width: $height - 8px;
     height: 100%;
@@ -22,22 +54,4 @@ $height: 40px;
       font-size: 20px;
       color: $colorBlack;
     }
-  }
-
-  .selectDirectoryButton {
-    height: 100%;
-    margin: 0 8px 0 0;
-    padding: 0 8px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: $colorLightGray;
-    font-size: 12px;
-    color: $colorBlack;
-    border-radius: $borderRadius;
-  }
-
-  .middle {
-    flex: 1;
   }
