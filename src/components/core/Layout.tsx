@@ -19,7 +19,7 @@ const defaultProps = {
   children : null
 };
 
-const Layout = ({ children }: ComponentProps): JSX.Element => {
+function Layout({ children }: ComponentProps): JSX.Element {
   const state: State = useAppSelector((state: RootState): State => {
     return {
       status: state.global.status,
@@ -29,10 +29,6 @@ const Layout = ({ children }: ComponentProps): JSX.Element => {
 
   return (
     <div className={styles.container}>
-      {/* <Head>
-        <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover' />
-      </Head> */}
-
       {children}
 
       <Player

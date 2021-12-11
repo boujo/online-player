@@ -4,17 +4,18 @@ import { Layout } from './components/core';
 import { store } from './store';
 import Router from './Router';
 
+import './styles/globals.scss';
+import './styles/fontiran.scss';
+import './styles/materialIcons.scss';
 import './App.scss';
 
 function App() {
   return (
     <Provider store={store}>
       <div className="app">
-        {/* <div className="app-main"> */}
-          <Layout>
-            <Router />
-          </Layout>
-        {/* </div> */}
+        <Layout>
+          <Router />
+        </Layout>
       </div>
     </Provider>
   );

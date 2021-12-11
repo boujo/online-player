@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { openDB, deleteDB } from "idb";
 
 import {
@@ -82,6 +83,8 @@ const Main = () => {
 
         <div className={styles.right}>
           <div className={styles.list}>
+            <Link to="/second">Second</Link>
+
             {state.list.map(function(item, index) {
               return (
                 <Item
