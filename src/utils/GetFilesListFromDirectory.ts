@@ -5,7 +5,20 @@ import {
   getDominantColor
 } from './';
 
-function getFileInfo(file: File): any {
+interface Info {
+  name: string,
+  album: string,
+  artist: string,
+  title: string,
+  dominantColor: { r: number, g: number, b: number },
+  cover: string | null,
+}
+
+interface InfoExtended extends Info {
+  path: string,
+}
+
+function getFileInfo(file: File): Promise<Info> {
   return new Promise((resolve, reject) => {
     if (file) {
       jsmediatags.read(file, {
@@ -70,7 +83,7 @@ async function getFilesListFromDirectoryRecursively(list: any, relativePath: any
   }
 }
 
-async function getFilesListFromDirectory(handle: any, types: any, maxLevel: any = 3, currentLevel: any = 1) {
+async function getFilesListFromDirectory(handle: any, types: any, maxLevel: any = 3, currentLevel: any = 1): Promise<any> {
   const list: any = [];
   const relativePath = '';
 

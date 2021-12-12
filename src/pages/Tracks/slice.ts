@@ -65,6 +65,8 @@ export const updateFiles = createAsyncThunk(
       upgrade(db: any, oldVersion: any, newVersion: any, transaction: any) {
         const handlesStore = db.createObjectStore('handles', { autoIncrement: false });
         const listStore = db.createObjectStore('list', { autoIncrement: true });
+        const artistsStore = db.createObjectStore('artists', { autoIncrement: true });
+        const albumsStore = db.createObjectStore('albums', { autoIncrement: true });
       }
     });
 
@@ -76,13 +78,64 @@ export const updateFiles = createAsyncThunk(
       await tx.done;
     }
 
+    const artists: { [key: string]: Array<number> } = {};
+    const albums: { [key: string]: Array<number> } = {};
     {
       const storeName = 'list';
       // await db.put(storeName, { otherstuff: '...' }, 'somewhere/file.something');
       const tx = db.transaction(storeName, 'readwrite');
       const store = await tx.objectStore(storeName);
       for (let i = 0; i < files.length; i++) {
+        // store track
         const value = await store.put(files[i]);
+
+        // extract artist
+        if (files[i].artist) {
+          const artist = files[i].artist;
+          if (!artists[artist]) {
+            artists[artist] = [];
+          }
+          artists[artist].push(value);
+        }
+
+        // extract album
+        if (files[i].album) {
+          const album = files[i].album;
+          if (!albums[album]) {
+            albums[album] = [];
+          }
+          albums[album].push(value);
+        }
+      }
+      await tx.done;
+    }
+
+    {
+      const storeName = 'artists';
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = await tx.objectStore(storeName);
+      const artistKeys = Object.keys(artists);
+      for (let i = 0; i < artistKeys.length; i++) {
+        const artistData = {
+          name: artistKeys[i],
+          tracks: artists[artistKeys[i]]
+        };
+        const value = await store.put(artistData);
+      }
+      await tx.done;
+    }
+
+    {
+      const storeName = 'albums';
+      const tx = db.transaction(storeName, 'readwrite');
+      const store = await tx.objectStore(storeName);
+      const albumKeys = Object.keys(albums);
+      for (let i = 0; i < albumKeys.length; i++) {
+        const albumData = {
+          name: albumKeys[i],
+          tracks: albums[albumKeys[i]]
+        };
+        const value = await store.put(albumData);
       }
       await tx.done;
     }

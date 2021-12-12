@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from "react-router-dom";
-import { openDB, deleteDB } from "idb";
+import { openDB } from "idb";
 
 import {
   Header,
@@ -14,27 +14,26 @@ import {
 import {
   State as GlobalState
 } from '../../slice';
-// import {
-//   Item
-// } from './components';
-// import {
-//   State,
-//   ItemType,
-//   initial,
-//   updateFiles
-// } from './slice';
+import {
+  Item
+} from './components';
+import {
+  State,
+  ArtistType,
+  initial
+} from './slice';
 
 import styles from './index.module.scss';
 
 function Artists() {
   const dispatch = useAppDispatch();
 
-  // const state: State = useAppSelector((state: RootState): State => {
-  //   return {
-  //     loading : state.main.loading,
-  //     list    : state.main.list
-  //   }
-  // });
+  const state: State = useAppSelector((state: RootState): State => {
+    return {
+      loading : state.artists.loading,
+      list    : state.artists.list,
+    }
+  });
 
   const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
     return {
@@ -43,10 +42,18 @@ function Artists() {
     }
   });
 
+  useEffect(() => {
+    // on mount
+    dispatch(initial({ openDB }));
+
+    return () => {
+    }
+  }, [])
+
   return (
     <div className={styles.container}>
       <Header
-        // onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
+        onSelectDirectoryButtonClick={() => {}}
       />
 
       <div className={styles.main}>
@@ -57,23 +64,18 @@ function Artists() {
         <div className={styles.right}>
           <div className={styles.list}>
 
-            {/* {state.list.map(function(item, index) {
+            {state.list.map(function(item, index) {
               return (
                 <Item
                   key={item.key}
                   index={index}
-                  path={item.path}
                   name={item.name}
-                  artist={item.artist}
-                  title={item.title}
-                  cover={item.cover}
-                  selected={item.key === globalState.selectedKey}
                   onSelect={() => {
-                    dispatch(selectedKeyChange({ key: item.key }));
+                    // dispatch(selectedKeyChange({ key: item.key }));
                   }}
                 />
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>

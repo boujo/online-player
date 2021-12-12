@@ -1,0 +1,64 @@
+@import '../../../styles/environment';
+
+$height: 150px;
+
+.container {
+  // width: 100%;
+  height: $height;
+  display: flex;
+  flex-direction: column;
+  border-radius: $borderRadius;
+}
+  .imagePlaceholder {
+    width: 100%;
+    height: $height - 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorLightGray;
+    border-radius: $borderRadius;
+
+    i {
+      font-size: 36px;
+    }
+  }
+
+  .image {
+    width: 100%;
+    height: $height - 40px;
+    border-radius: $borderRadius;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .info {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+  }
+    .name {
+      flex: 1;
+      line-height: 40px;
+      font-size: 14px;
+      color: $colorBlack;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .moreButton {
+      width: 20px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $colorGray;
+
+      i {
+        font-size: 20px;
+      }
+    }

@@ -3,12 +3,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import global from './slice';
 import main from './pages/Main/slice';
 import tracks from './pages/Tracks/slice';
+import artists from './pages/Artists/slice';
 
 export const store = configureStore({
   reducer: {
     global,
     main,
-    tracks
+    tracks,
+    artists
   }
 });
 
