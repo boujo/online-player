@@ -53,6 +53,7 @@ function Artists() {
   return (
     <div className={styles.container}>
       <Header
+        route="/artists"
         onSelectDirectoryButtonClick={() => {}}
       />
 

@@ -17,12 +17,24 @@ $height: 40px;
     .navigationItem {
       height: 100%;
       float: left;
-      margin: 0 8px;
-      line-height: $height - 8px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
       border: none;
-      font-size: 14px;
       text-decoration: none;
-      color: $colorBlack;
+      border-radius: $borderRadius;
+      
+      i {
+        font-size: 20px;
+        color: $colorGray;
+      }
+
+      &.selected {
+        background-color: rgba($colorPrimary, 0.2);
+        i { color: $colorPrimary; }
+      }
     }
 
   .middle {

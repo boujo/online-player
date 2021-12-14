@@ -59,6 +59,7 @@ const Tracks = () => {
   return (
     <div className={styles.container}>
       <Header
+        route="/tracks"
         onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
       />
 

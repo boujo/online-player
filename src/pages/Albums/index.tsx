@@ -46,6 +46,7 @@ function Albums() {
   return (
     <div className={styles.container}>
       <Header
+        route="/albums"
         // onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
       />
 

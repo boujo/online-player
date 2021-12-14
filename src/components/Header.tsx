@@ -2,18 +2,20 @@ import { Link } from "react-router-dom";
 import styles from './Header.module.scss';
 
 type ComponentProps = {
+  route: string,
   onSelectDirectoryButtonClick: () => void
 };
 
 const defaultProps = {
+  route: '',
   onSelectDirectoryButtonClick: () => {}
 };
 
-const Header = ({ onSelectDirectoryButtonClick }: ComponentProps): JSX.Element => {
+const Header = ({ route, onSelectDirectoryButtonClick }: ComponentProps): JSX.Element => {
   const items = [
-    { title: 'Tracks', route: '/tracks', icon: '' },
-    { title: 'Albums', route: '/albums', icon: '' },
-    { title: 'Artists', route: '/artists', icon: '' },
+    { title: 'Tracks', route: '/tracks', icon: 'music_note' },
+    { title: 'Albums', route: '/albums', icon: 'album' },
+    { title: 'Artists', route: '/artists', icon: 'person' },
   ];
 
   return (
@@ -21,8 +23,12 @@ const Header = ({ onSelectDirectoryButtonClick }: ComponentProps): JSX.Element =
       <div className={styles.navigation}>
         {items.map((item) => {
           return (
-            <Link to={item.route} className={styles.navigationItem}>
-              {item.title}
+            <Link
+              to={item.route}
+              className={`${styles.navigationItem} ${route === item.route ? styles.selected : ''}`}
+            >
+              {/* {item.title} */}
+              <i className="material-icons">{item.icon}</i>
             </Link>
           );
         })}
