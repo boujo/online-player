@@ -4,13 +4,15 @@ import global from './slice';
 import main from './pages/Main/slice';
 import tracks from './pages/Tracks/slice';
 import artists from './pages/Artists/slice';
+import albums from './pages/Albums/slice';
 
 export const store = configureStore({
   reducer: {
     global,
     main,
     tracks,
-    artists
+    artists,
+    albums
   }
 });
 

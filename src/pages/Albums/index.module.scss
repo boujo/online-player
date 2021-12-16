@@ -26,6 +26,11 @@
       .list {
         width: 100%;
         padding: 8px;
+
+        display: inline-grid;
+        grid-gap: 10px;
+        grid-template-columns: calc((100% - 10px) / 2) calc((100% - 10px) / 2);
+
         border: solid 1px $colorLightGray;
         border-radius: $borderRadius;
       }

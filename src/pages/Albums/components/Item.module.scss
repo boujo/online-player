@@ -1,0 +1,79 @@
+@import '../../../styles/environment';
+
+$height: 170px;
+
+.container {
+  // width: 100%;
+  height: $height;
+  display: flex;
+  flex-direction: column;
+  border-radius: $borderRadius;
+}
+  .imagePlaceholder {
+    width: 100%;
+    height: $height - 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorLightGray;
+    border-radius: $borderRadius;
+
+    i {
+      font-size: 36px;
+    }
+  }
+
+  .cover {
+    width: 100%;
+    height: $height - 40px;
+    border-radius: $borderRadius;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .bottom {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+  }
+    .info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+      .name {
+        flex: 1;
+        line-height: 25px;
+        font-size: 14px;
+        color: $colorBlack;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .artist {
+        flex: 1;
+        line-height: 25px;
+        font-size: 14px;
+        color: $colorBlack;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+  .moreButton {
+    width: 20px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $colorGray;
+
+    i {
+      font-size: 20px;
+    }
+  }

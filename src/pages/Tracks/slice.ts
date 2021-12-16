@@ -79,7 +79,7 @@ export const updateFiles = createAsyncThunk(
     }
 
     const artists: { [key: string]: Array<number> } = {};
-    const albums: { [key: string]: Array<number> } = {};
+    const albums: { [key: string]: { cover: string, tracks: Array<number>, artist: string } } = {};
     {
       const storeName = 'list';
       // await db.put(storeName, { otherstuff: '...' }, 'somewhere/file.something');
@@ -100,11 +100,18 @@ export const updateFiles = createAsyncThunk(
 
         // extract album
         if (files[i].album) {
-          const album = files[i].album;
-          if (!albums[album]) {
-            albums[album] = [];
+          const albumName = files[i].album;
+          if (!albums[albumName]) {
+            albums[albumName] = {
+              cover: files[i].cover,
+              tracks: [],
+              artist: ''
+            };
           }
-          albums[album].push(value);
+          albums[albumName].tracks.push(value);
+          if (!albums[albumName].artist && files[i].artist) {
+            albums[albumName].artist = files[i].artist;
+          }
         }
       }
       await tx.done;
@@ -133,7 +140,9 @@ export const updateFiles = createAsyncThunk(
       for (let i = 0; i < albumKeys.length; i++) {
         const albumData = {
           name: albumKeys[i],
-          tracks: albums[albumKeys[i]]
+          cover: albums[albumKeys[i]].cover,
+          tracks: albums[albumKeys[i]].tracks,
+          artist: albums[albumKeys[i]].artist,
         };
         const value = await store.put(albumData);
       }

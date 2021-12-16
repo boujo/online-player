@@ -14,27 +14,26 @@ import {
 import {
   State as GlobalState
 } from '../../slice';
-// import {
-//   Item
-// } from './components';
-// import {
-//   State,
-//   ItemType,
-//   initial,
-//   updateFiles
-// } from './slice';
+import {
+  Item
+} from './components';
+import {
+  State,
+  AlbumType,
+  initial
+} from './slice';
 
 import styles from './index.module.scss';
 
 function Albums() {
   const dispatch = useAppDispatch();
 
-  // const state: State = useAppSelector((state: RootState): State => {
-  //   return {
-  //     loading : state.main.loading,
-  //     list    : state.main.list
-  //   }
-  // });
+  const state: State = useAppSelector((state: RootState): State => {
+    return {
+      loading : state.albums.loading,
+      list    : state.albums.list
+    }
+  });
 
   const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
     return {
@@ -42,6 +41,14 @@ function Albums() {
       selectedFile : state.global.selectedFile
     }
   });
+
+  useEffect(() => {
+    // on mount
+    dispatch(initial({ openDB }));
+
+    return () => {
+    }
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -57,24 +64,20 @@ function Albums() {
 
         <div className={styles.right}>
           <div className={styles.list}>
-
-            {/* {state.list.map(function(item, index) {
+            {state.list.map(function(item, index) {
               return (
                 <Item
                   key={item.key}
                   index={index}
-                  path={item.path}
                   name={item.name}
-                  artist={item.artist}
-                  title={item.title}
                   cover={item.cover}
-                  selected={item.key === globalState.selectedKey}
+                  artist={item.artist}
                   onSelect={() => {
-                    dispatch(selectedKeyChange({ key: item.key }));
+                    // dispatch(selectedKeyChange({ key: item.key }));
                   }}
                 />
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>

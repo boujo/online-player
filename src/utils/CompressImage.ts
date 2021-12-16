@@ -6,8 +6,8 @@ function resize(image: any): any {
     let width = image.width;
     let height = image.height;
   
-    const max_width = 100;
-    const max_height = 100;
+    const max_width = 200;
+    const max_height = 200;
   
     // calculate the width and height, constraining the proportions
     if (width > height) {
