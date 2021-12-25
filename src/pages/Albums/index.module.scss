@@ -43,10 +43,3 @@
     left: 0;
     background-color: rgba($colorBlack, 0.3);
   }
-
-@include tablet {
-  .container {}
-    .main {}
-      .left { display: block; }
-      .list {}
-}

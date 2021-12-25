@@ -4,6 +4,7 @@ import { openDB, deleteDB } from "idb";
 
 import {
   Header,
+  Sidebar,
   Loading
 } from '../../components';
 import { RootState } from '../../store';
@@ -58,9 +59,9 @@ function Albums() {
       />
 
       <div className={styles.main}>
-        <div className={styles.left}>
-          sidebar
-        </div>
+        <Sidebar
+          route="/albums"
+        />
 
         <div className={styles.right}>
           <div className={styles.list}>

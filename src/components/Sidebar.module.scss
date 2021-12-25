@@ -1,0 +1,43 @@
+@import '../styles/environment';
+@import '../styles/mixins';
+@import '../styles/mediaQueries';
+
+$width: 70px;
+
+.container {
+  width: $width + 24px;
+  height: 100%;
+  padding: 8px 12px;
+  display: none;
+}
+  .item {
+    width: $width;
+    height: $width;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    text-decoration: none;
+    border-radius: $borderRadius;
+
+    i {
+      font-size: 24px;
+      color: $colorGray;
+    }
+
+    &.selected {
+      background-color: rgba($colorPrimary, 0.2);
+      i { color: $colorPrimary; }
+      .itemTitle { color: $colorPrimary; }
+    }
+  }
+    .itemTitle {
+      font-size: 14px;
+      color: $colorGray;
+    }
+
+@include tablet {
+  .container { display: block; }
+}

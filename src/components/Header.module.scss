@@ -1,4 +1,5 @@
 @import '../styles/environment';
+@import '../styles/mediaQueries';
 
 $height: 40px;
 
@@ -67,3 +68,7 @@ $height: 40px;
       color: $colorBlack;
     }
   }
+
+@include tablet {
+  .navigation { display: none; }
+}
