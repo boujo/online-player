@@ -121,19 +121,19 @@ const Player = ({ fileInfo }: ComponentProps): JSX.Element => {
     backgroundColor = `rgba(${fileInfo.dominantColor.r}, ${fileInfo.dominantColor.g}, ${fileInfo.dominantColor.b}, 0.5)`;
   }
 
-  let containerStyle = {};
+  // let containerStyle = {};
   // if (fileInfo && fileInfo.key !== -1) {
-    if (isExpand) {
-      // when player expanded, show whole player
-      containerStyle = { top: '0px' };
-    }
+    // if (isExpand) {
+    //   // when player expanded, show whole player
+    //   containerStyle = { top: '0px' };
+    // }
   // } else {
   //   // when no music playing, no need to show player
   //   // containerStyle = { top: '100vh' };
   // }
 
   return (
-    <div className={styles.container} style={containerStyle}>
+    <div className={`${styles.container} ${isExpand ? styles.expand : ''}`}>
       <audio
         ref={audioRef}
         onTimeUpdate={onAudioTimeUpdate}

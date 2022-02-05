@@ -1,0 +1,79 @@
+@import '../../../styles/environment';
+
+$height: 40px;
+
+.container {
+  width: 100%;
+  height: $height + 24px; // padding top + bottom
+  display: flex;
+  flex-direction: row;
+  padding: 12px;
+  border-radius: $borderRadius;
+  // border-bottom: solid 1px $colorLightGray;
+
+  // &.selected {
+  //   background-color: rgba($colorPrimary, 0.4);
+  // }
+}
+  .imagePlaceholder {
+    width: $height;
+    height: $height;
+    margin: 0 8px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colorLightGray;
+    border-radius: $borderRadius;
+
+    i {
+      font-size: 24px;
+    }
+  }
+
+  .image {
+    width: $height;
+    height: $height;
+    margin: 0 8px 0 0;
+    border-radius: $borderRadius;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .info {
+    flex: 1;
+    overflow: hidden;
+  }
+    .name {
+      width: 100%;
+      height: $height / 2;
+      line-height: $height / 2;
+      font-size: 14px;
+      color: $colorBlack;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .artist {
+      width: 100%;
+      height: $height / 2;
+      line-height: $height / 2;
+      font-size: 13px;
+      color: $colorGray;
+    }
+
+  .moreButton {
+    width: $height / 2;
+    height: $height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $colorGray;
+
+    i {
+      font-size: 20px;
+    }
+  }

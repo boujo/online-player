@@ -14,6 +14,7 @@ const Sidebar = ({ route }: ComponentProps): JSX.Element => {
     { title: 'Tracks', route: '/tracks', icon: 'music_note' },
     { title: 'Albums', route: '/albums', icon: 'album' },
     { title: 'Artists', route: '/artists', icon: 'person' },
+    { title: 'Playlist', route: '/playlist', icon: 'queue_music' },
   ];
 
 	return (

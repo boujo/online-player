@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { openDB, deleteDB } from "idb";
 
 import {
@@ -13,34 +13,35 @@ import {
   useAppDispatch
 } from '../../hooks';
 import {
-  State as GlobalState
+  State as GlobalState,
+  selectedFileChange,
 } from '../../slice';
 import {
   Item
 } from './components';
 import {
   State,
-  AlbumType,
-  initial
+  ItemType,
+  initial,
 } from './slice';
 
 import styles from './index.module.scss';
 
-function Albums() {
+const Album = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const { id, name } = useParams();
 
   const state: State = useAppSelector((state: RootState): State => {
     return {
-      loading : state.albums.loading,
-      list    : state.albums.list
+      loading : state.tracks.loading,
+      list    : state.tracks.list
     }
   });
 
   const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
     return {
       status       : state.global.status,
-      selectedFile : state.global.selectedFile
+      selectedFile : state.global.selectedFile,
     }
   });
 
@@ -52,16 +53,19 @@ function Albums() {
     }
   }, [])
 
+  const onSelectDirectoryButtonClick = () => {
+  };
+
   return (
     <div className={styles.container}>
       <Header
-        route="/albums"
-        // onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
+        route="/tracks"
+        onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
       />
 
       <div className={styles.main}>
         <Sidebar
-          route="/albums"
+          route="/tracks"
         />
 
         <div className={styles.right}>
@@ -71,12 +75,15 @@ function Albums() {
                 <Item
                   key={item.key}
                   index={index}
+                  path={item.path}
                   name={item.name}
-                  cover={item.cover}
                   artist={item.artist}
+                  title={item.title}
+                  cover={item.cover}
+                  selected={item.key === globalState.selectedFile.key}
+                  color={globalState.selectedFile.dominantColor}
                   onSelect={() => {
-                    navigate(`/albums/${item.key}/${item.name.replaceAll(' ', '-')}`);
-                    // dispatch(selectedKeyChange({ key: item.key }));
+                    dispatch(selectedFileChange({ key: item.key }));
                   }}
                 />
               );
@@ -85,15 +92,15 @@ function Albums() {
         </div>
       </div>
 
-      {/* {state.loading ?
+      {state.loading ?
         <div className={styles.loading}>
           <Loading size="large" />
         </div>
         :
         null
-      } */}
+      }
     </div>
   );
 }
 
-export default Albums;
+export default Album;
