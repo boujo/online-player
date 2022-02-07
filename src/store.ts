@@ -5,7 +5,6 @@ import main from './pages/Main/slice';
 import tracks from './pages/Tracks/slice';
 import artists from './pages/Artists/slice';
 import albums from './pages/Albums/slice';
-import album from './pages/Album/slice';
 
 export const store = configureStore({
   reducer: {
@@ -13,8 +12,7 @@ export const store = configureStore({
     main,
     tracks,
     artists,
-    albums,
-    album
+    albums
   }
 });
 

@@ -1,57 +1,17 @@
-import { useEffect } from 'react';
-import { useParams, Link } from "react-router-dom";
-import { openDB, deleteDB } from "idb";
-
+import { useParams } from "react-router-dom";
+import { openDB } from "idb";
 import {
   Header,
   Sidebar,
   Loading
 } from '../../components';
-import { RootState } from '../../store';
-import {
-  useAppSelector,
-  useAppDispatch
-} from '../../hooks';
-import {
-  State as GlobalState,
-  selectedFileChange,
-} from '../../slice';
-import {
-  Item
-} from './components';
-import {
-  State,
-  ItemType,
-  initial,
-} from './slice';
-
-import styles from './index.module.scss';
+import { Item } from './components';
+import { useAlbum } from './hooks';
+import styles from './styles.module.scss';
 
 const Album = () => {
-  const dispatch = useAppDispatch();
-  const { id, name } = useParams();
-
-  const state: State = useAppSelector((state: RootState): State => {
-    return {
-      loading : state.tracks.loading,
-      list    : state.tracks.list
-    }
-  });
-
-  const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
-    return {
-      status       : state.global.status,
-      selectedFile : state.global.selectedFile,
-    }
-  });
-
-  useEffect(() => {
-    // on mount
-    dispatch(initial({ openDB }));
-
-    return () => {
-    }
-  }, [])
+  const { key, name } = useParams<'key' | 'name'>();
+  const { info, list, loading } = useAlbum(openDB, key);
 
   const onSelectDirectoryButtonClick = () => {
   };
@@ -69,21 +29,30 @@ const Album = () => {
         />
 
         <div className={styles.right}>
+          <div className={styles.header}>
+            <div className={styles.cover}>
+              <img alt={info.name} src={info.cover} />
+            </div>
+
+            <div className={styles.info}>
+              <div className={styles.name}>{info.name}</div>
+              <div className={styles.artist}>{info.artist}</div>
+              <div className={styles.year}>year</div>
+            </div>
+          </div>
+
           <div className={styles.list}>
-            {state.list.map(function(item, index) {
+            {list.map(function(item, index) {
               return (
                 <Item
                   key={item.key}
                   index={index}
-                  path={item.path}
                   name={item.name}
-                  artist={item.artist}
-                  title={item.title}
                   cover={item.cover}
-                  selected={item.key === globalState.selectedFile.key}
-                  color={globalState.selectedFile.dominantColor}
+                  artist={item.artist}
                   onSelect={() => {
-                    dispatch(selectedFileChange({ key: item.key }));
+                    // navigate(`/albums/${item.key}/${item.name.replaceAll(' ', '-')}`);
+                    // dispatch(selectedKeyChange({ key: item.key }));
                   }}
                 />
               );
@@ -92,7 +61,7 @@ const Album = () => {
         </div>
       </div>
 
-      {state.loading ?
+      {loading ?
         <div className={styles.loading}>
           <Loading size="large" />
         </div>

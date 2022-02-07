@@ -22,6 +22,7 @@ const Sidebar = ({ route }: ComponentProps): JSX.Element => {
       {items.map((item) => {
         return (
           <Link
+            key={item.title}
             to={item.route}
             className={`${styles.item} ${route === item.route ? styles.selected : ''}`}
           >

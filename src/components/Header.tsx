@@ -25,6 +25,7 @@ const Header = ({ route, onSelectDirectoryButtonClick }: ComponentProps): JSX.El
         {items.map((item) => {
           return (
             <Link
+              key={item.title}
               to={item.route}
               className={`${styles.navigationItem} ${route === item.route ? styles.selected : ''}`}
             >

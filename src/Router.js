@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Main from './pages/Main';
 import Tracks from './pages/Tracks';
@@ -13,7 +13,7 @@ function Router(props) {
 				<Route path='/' element={<Main />} exact />
 				<Route path='/tracks' element={<Tracks />} exact />
 				<Route path='/albums' element={<Albums />} exact />
-				<Route path='/albums/:id/:name' element={<Album />} exact />
+				<Route path='/albums/:key/:name' element={<Album />} exact />
 				<Route path='/artists' element={<Artists />} exact />
 
 				{/* <Route path="*" component={NoMatch} /> */}
