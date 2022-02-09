@@ -42,8 +42,9 @@ const Artist = () => {
                   key={item.key}
                   index={index}
                   name={item.name}
-                  cover={item.cover}
+                  title={item.title}
                   artist={item.artist}
+                  cover={item.cover}
                   onSelect={() => {
                     // navigate(`/albums/${item.key}/${item.name.replaceAll(' ', '-')}`);
                     // dispatch(selectedKeyChange({ key: item.key }));
