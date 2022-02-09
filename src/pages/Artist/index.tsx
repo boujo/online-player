@@ -1,10 +1,6 @@
-import { useParams } from "react-router-dom";
-import {openDB} from "idb";
-import {
-  Header,
-  Sidebar,
-  Loading
-} from '../../components';
+import { useParams } from 'react-router-dom';
+import { openDB } from 'idb';
+import { Header, Sidebar, Loading } from '../../components';
 import { Item } from './components';
 import { useArtist } from './hooks';
 import styles from './styles.module.scss';
@@ -14,6 +10,7 @@ const Artist = () => {
   const { info, list, loading } = useArtist(openDB, key);
 
   const onSelectDirectoryButtonClick = () => {
+    return null;
   };
 
   return (
@@ -24,9 +21,7 @@ const Artist = () => {
       />
 
       <div className={styles.main}>
-        <Sidebar
-          route="/tracks"
-        />
+        <Sidebar route="/tracks" />
 
         <div className={styles.right}>
           <div className={styles.header}>
@@ -40,11 +35,8 @@ const Artist = () => {
             </div>
           </div>
 
-          <div
-            className={styles.list}
-            role="list"
-          >
-            {list.map(function(item, index) {
+          <div className={styles.list} role="list">
+            {list.map(function (item, index) {
               return (
                 <Item
                   key={item.key}
@@ -63,15 +55,13 @@ const Artist = () => {
         </div>
       </div>
 
-      {loading ?
+      {loading ? (
         <div className={styles.loading}>
           <Loading size="large" />
         </div>
-        :
-        null
-      }
+      ) : null}
     </div>
   );
-}
+};
 
 export default Artist;
