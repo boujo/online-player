@@ -6,7 +6,7 @@ import { useArtist } from './hooks';
 import styles from './styles.module.scss';
 
 const Artist = () => {
-  const { key, name} = useParams<'key' | 'name'>();
+  const { key, name } = useParams<'key' | 'name'>();
   const { info, list, loading } = useArtist(openDB, key);
 
   const onSelectDirectoryButtonClick = () => {
