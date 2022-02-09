@@ -26,5 +26,10 @@
         "react/react-in-jsx-scope": "off",
         "quotes": [2, "single"],
         "prettier/prettier": [2, { "singleQuote": true }]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
