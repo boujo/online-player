@@ -1,29 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  getFileInfo
-} from './utils';
+import { getFileInfo } from './utils';
 
 export enum Status {
   NOT_SET,
   READY,
-  NOT_READY
-};
+  NOT_READY,
+}
 
 export interface SelectedFile {
-  key: number,
-  name: string,
-  url: string,
-  album: string,
-  artist: string,
-  title: string,
-  cover: string,
-  dominantColor: { r: number, g: number, b: number },
+  key: number;
+  name: string;
+  url: string;
+  album: string;
+  artist: string;
+  title: string;
+  cover: string;
+  dominantColor: { r: number; g: number; b: number };
 }
 
 export interface State {
-  status: Status,
-  selectedFile: SelectedFile,
-};
+  status: Status;
+  selectedFile: SelectedFile;
+}
 
 const INITIAL_STATE: State = {
   status: Status.NOT_SET,

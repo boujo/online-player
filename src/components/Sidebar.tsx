@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 
 type ComponentProps = {
-  route : string
+  route: string;
 };
 
 const defaultProps = {
-  route : ''
+  route: '',
 };
 
 const Sidebar = ({ route }: ComponentProps): JSX.Element => {
@@ -17,26 +17,26 @@ const Sidebar = ({ route }: ComponentProps): JSX.Element => {
     { title: 'Playlist', route: '/playlist', icon: 'queue_music' },
   ];
 
-	return (
-		<div className={styles.container}>
+  return (
+    <div className={styles.container}>
       {items.map((item) => {
         return (
           <Link
             key={item.title}
             to={item.route}
-            className={`${styles.item} ${route === item.route ? styles.selected : ''}`}
+            className={`${styles.item} ${
+              route === item.route ? styles.selected : ''
+            }`}
           >
             <i className="material-icons">{item.icon}</i>
 
-            <div className={styles.itemTitle}>
-              {item.title}
-            </div>
+            <div className={styles.itemTitle}>{item.title}</div>
           </Link>
         );
       })}
-		</div>
-	);
-}
+    </div>
+  );
+};
 Sidebar.defaultProps = defaultProps;
 
 export { Sidebar };

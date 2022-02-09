@@ -3,25 +3,25 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export enum SongStatus {
   STOP,
   PLAY,
-  PAUSE
-};
+  PAUSE,
+}
 
 export type AlbumType = {
-  key: number,
-  name: string,
-  cover: string,
-  artist: string,
-  tracks: Array<number>,
+  key: number;
+  name: string;
+  cover: string;
+  artist: string;
+  tracks: Array<number>;
 };
 
 export interface State {
-  loading : boolean,
-  list    : Array<AlbumType>
-};
+  loading: boolean;
+  list: Array<AlbumType>;
+}
 
 const INITIAL_STATE: State = {
-  loading : false,
-  list    : []
+  loading: false,
+  list: [],
 };
 
 export const initial = createAsyncThunk(
@@ -49,8 +49,7 @@ export const initial = createAsyncThunk(
 export const slice = createSlice({
   name: 'albums',
   initialState: INITIAL_STATE,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(initial.pending, (state) => {

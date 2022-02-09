@@ -1,30 +1,13 @@
 import { useEffect } from 'react';
-import { Link } from "react-router-dom";
-import { openDB, deleteDB } from "idb";
+import { Link } from 'react-router-dom';
+import { openDB, deleteDB } from 'idb';
 
-import {
-  Header,
-  Sidebar,
-  Loading
-} from '../../components';
+import { Header, Sidebar, Loading } from '../../components';
 import { RootState } from '../../store';
-import {
-  useAppSelector,
-  useAppDispatch
-} from '../../hooks';
-import {
-  State as GlobalState,
-  selectedFileChange,
-} from '../../slice';
-import {
-  Item
-} from './components';
-import {
-  State,
-  ItemType,
-  initial,
-  updateFiles
-} from './slice';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { State as GlobalState, selectedFileChange } from '../../slice';
+import { Item } from './components';
+import { State, ItemType, initial, updateFiles } from './slice';
 
 import styles from './index.module.scss';
 
@@ -33,25 +16,24 @@ const Tracks = () => {
 
   const state: State = useAppSelector((state: RootState): State => {
     return {
-      loading : state.tracks.loading,
-      list    : state.tracks.list
-    }
+      loading: state.tracks.loading,
+      list: state.tracks.list,
+    };
   });
 
-  const globalState: GlobalState = useAppSelector((state: RootState): GlobalState => {
-    return {
-      status       : state.global.status,
-      selectedFile : state.global.selectedFile,
+  const globalState: GlobalState = useAppSelector(
+    (state: RootState): GlobalState => {
+      return {
+        status: state.global.status,
+        selectedFile: state.global.selectedFile,
+      };
     }
-  });
+  );
 
   useEffect(() => {
     // on mount
     dispatch(initial({ openDB }));
-
-    return () => {
-    }
-  }, [])
+  }, []);
 
   const onSelectDirectoryButtonClick = () => {
     dispatch(updateFiles({ openDB, deleteDB }));
@@ -65,13 +47,11 @@ const Tracks = () => {
       />
 
       <div className={styles.main}>
-        <Sidebar
-          route="/tracks"
-        />
+        <Sidebar route="/tracks" />
 
         <div className={styles.right}>
           <div className={styles.list}>
-            {state.list.map(function(item, index) {
+            {state.list.map(function (item, index) {
               return (
                 <Item
                   key={item.key}
@@ -93,15 +73,13 @@ const Tracks = () => {
         </div>
       </div>
 
-      {state.loading ?
+      {state.loading ? (
         <div className={styles.loading}>
           <Loading size="large" />
         </div>
-        :
-        null
-      }
+      ) : null}
     </div>
   );
-}
+};
 
 export default Tracks;

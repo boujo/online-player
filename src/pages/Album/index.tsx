@@ -6,7 +6,7 @@ import { useAlbum } from './hooks';
 import styles from './styles.module.scss';
 
 const Album = () => {
-  const { key, name } = useParams<'key' | 'name'>();
+  const { key = '', name } = useParams<'key' | 'name'>();
   const { info, list, loading } = useAlbum(openDB, key);
 
   const onSelectDirectoryButtonClick = () => {
@@ -34,6 +34,7 @@ const Album = () => {
 
         <div className={styles.list} role="list">
           {list.map(function (item, index) {
+            console.log(item);
             return (
               <Item
                 key={item.key}

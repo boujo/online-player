@@ -1,33 +1,30 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import {
-  getFilesListFromDirectory
-} from '../../utils';
+import { getFilesListFromDirectory } from '../../utils';
 
 export enum SongStatus {
   STOP,
   PLAY,
-  PAUSE
-};
+  PAUSE,
+}
 
 export type ItemType = {
-  key: number,
-  path: string,
-  name: string,
-  artist: string,
-  title: string,
-  cover: string,
+  key: number;
+  path: string;
+  name: string;
+  artist: string;
+  title: string;
+  cover: string;
 };
-
 
 export interface State {
-  loading : boolean,
-  list    : Array<ItemType>
-};
+  loading: boolean;
+  list: Array<ItemType>;
+}
 
 const INITIAL_STATE: State = {
-  loading : false,
-  list    : []
+  loading: false,
+  list: [],
 };
 
 export const initial = createAsyncThunk(
@@ -44,7 +41,7 @@ export const initial = createAsyncThunk(
         items.push(item);
         items[i].key = keys[i];
       }
-  
+
       return items;
     } catch (err) {
       console.log(err);
@@ -55,7 +52,7 @@ export const initial = createAsyncThunk(
 
 export const updateFiles = createAsyncThunk(
   'main/updateFiles',
-  async ({ openDB, deleteDB }: { openDB: any, deleteDB: any }) => {
+  async ({ openDB, deleteDB }: { openDB: any; deleteDB: any }) => {
     const directoryHandle = await (window as any).showDirectoryPicker();
     const files = await getFilesListFromDirectory(directoryHandle, ['mp3']);
 
@@ -63,9 +60,11 @@ export const updateFiles = createAsyncThunk(
 
     const db = await openDB('online-player', 1, {
       upgrade(db: any, oldVersion: any, newVersion: any, transaction: any) {
-        const handlesStore = db.createObjectStore('handles', { autoIncrement: false });
+        const handlesStore = db.createObjectStore('handles', {
+          autoIncrement: false,
+        });
         const listStore = db.createObjectStore('list', { autoIncrement: true });
-      }
+      },
     });
 
     {
@@ -94,8 +93,7 @@ export const updateFiles = createAsyncThunk(
 export const slice = createSlice({
   name: 'main',
   initialState: INITIAL_STATE,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(initial.pending, (state) => {

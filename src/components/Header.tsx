@@ -1,17 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 
 type ComponentProps = {
-  route: string,
-  onSelectDirectoryButtonClick: () => void
+  route: string;
+  onSelectDirectoryButtonClick: () => void;
 };
 
 const defaultProps = {
   route: '',
-  onSelectDirectoryButtonClick: () => {}
+  onSelectDirectoryButtonClick: () => {
+    return null;
+  },
 };
 
-const Header = ({ route, onSelectDirectoryButtonClick }: ComponentProps): JSX.Element => {
+const Header = ({
+  route,
+  onSelectDirectoryButtonClick,
+}: ComponentProps): JSX.Element => {
   const items = [
     { title: 'Tracks', route: '/tracks', icon: 'music_note' },
     { title: 'Albums', route: '/albums', icon: 'album' },
@@ -27,7 +32,9 @@ const Header = ({ route, onSelectDirectoryButtonClick }: ComponentProps): JSX.El
             <Link
               key={item.title}
               to={item.route}
-              className={`${styles.navigationItem} ${route === item.route ? styles.selected : ''}`}
+              className={`${styles.navigationItem} ${
+                route === item.route ? styles.selected : ''
+              }`}
             >
               {/* {item.title} */}
               <i className="material-icons">{item.icon}</i>
@@ -50,7 +57,7 @@ const Header = ({ route, onSelectDirectoryButtonClick }: ComponentProps): JSX.El
       </div>
     </div>
   );
-}
+};
 Header.defaultProps = defaultProps;
 
 export { Header };

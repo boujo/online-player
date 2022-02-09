@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { InfoType, ItemType } from "./types";
+import { useState, useEffect } from 'react';
+import { InfoType, ItemType } from './types';
 
 async function getList(
   openDB: any,
@@ -10,10 +10,10 @@ async function getList(
 ) {
   try {
     // change logic later, after db schema changed.
-    let info = { name: "", artist: "", cover: "" };
+    const info = { name: '', artist: '', cover: '' };
     {
-      const storeName = "albums";
-      const db = await openDB("online-player", 1);
+      const storeName = 'albums';
+      const db = await openDB('online-player', 1);
       const item = await db.get(storeName, Number(albumKey));
       info.name = item.name;
       info.artist = item.artist;
@@ -21,8 +21,8 @@ async function getList(
     }
 
     {
-      const storeName = "list";
-      const db = await openDB("online-player", 1);
+      const storeName = 'list';
+      const db = await openDB('online-player', 1);
       const items = [];
       const keys = await db.getAllKeys(storeName);
       for (let i = 0; i < keys.length; i++) {
@@ -41,11 +41,11 @@ async function getList(
   }
 }
 
-export function useAlbum(openDB: any, key: string = "") {
+export function useAlbum(openDB: any, key: string) {
   const [info, setInfo] = useState<InfoType>({
-    name: "",
-    artist: "",
-    cover: "",
+    name: '',
+    artist: '',
+    cover: '',
   });
   const [list, setList] = useState<Array<ItemType>>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -53,7 +53,6 @@ export function useAlbum(openDB: any, key: string = "") {
   useEffect(() => {
     setLoading(true);
     getList(openDB, key, setInfo, setList, setLoading);
-    return () => {};
   }, [key]);
 
   return { info, list, loading };
