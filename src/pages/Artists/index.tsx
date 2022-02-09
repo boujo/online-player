@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { openDB } from "idb";
 
 import {
@@ -28,6 +28,7 @@ import styles from './index.module.scss';
 
 function Artists() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const state: State = useAppSelector((state: RootState): State => {
     return {
@@ -73,6 +74,7 @@ function Artists() {
                   index={index}
                   name={item.name}
                   onSelect={() => {
+                    navigate(`/artists/${item.key}/${item.name.replaceAll(' ', '-')}`);
                     // dispatch(selectedKeyChange({ key: item.key }));
                   }}
                 />

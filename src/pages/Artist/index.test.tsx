@@ -7,8 +7,8 @@ jest.mock('idb', () => ({
   openDB: (name: string, version: number) => {
     return {
       get: (storeName: string, key: number) => {
-        if (storeName === 'albums') {
-          return { name: 'album 1', artist: 'artist 1', cover: '' };
+        if (storeName === 'artists') {
+          return { name: 'artist 1', tracks: [1, 2] };
         }
 
         const items: any = {
@@ -23,12 +23,6 @@ jest.mock('idb', () => ({
     };
   },
 }));
-
-test('renders correct album name', async () => {
-  render(<Component />, { wrapper: BrowserRouter });
-  const albumName = await screen.findByText('album 1');
-  expect(albumName).toBeInTheDocument();
-});
 
 test('renders correct numbers of track rows', async () => {
   render(<Component />, { wrapper: BrowserRouter });

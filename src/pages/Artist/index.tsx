@@ -6,12 +6,12 @@ import {
   Loading
 } from '../../components';
 import { Item } from './components';
-import { useAlbum } from './hooks';
+import { useArtist } from './hooks';
 import styles from './styles.module.scss';
 
-const Album = () => {
+const Artist = () => {
   const { key, name } = useParams<'key' | 'name'>();
-  const { info, list, loading } = useAlbum(openDB, key);
+  const { info, list, loading } = useArtist(openDB, key);
 
   const onSelectDirectoryButtonClick = () => {
   };
@@ -31,12 +31,11 @@ const Album = () => {
         <div className={styles.right}>
           <div className={styles.header}>
             <div className={styles.cover}>
-              <img alt={info.name} src={info.cover} />
+              {/* <img alt={info.name} src={info.cover} /> */}
             </div>
 
             <div className={styles.info}>
               <div className={styles.name}>{info.name}</div>
-              <div className={styles.artist}>{info.artist}</div>
               <div className={styles.year}>year</div>
             </div>
           </div>
@@ -75,4 +74,4 @@ const Album = () => {
   );
 }
 
-export default Album;
+export default Artist;
