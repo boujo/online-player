@@ -1,13 +1,12 @@
-
 export type InfoType = {
-  name: string
+  name: string;
 };
 
 export type ItemType = {
-  key: number,
-  path: string,
-  name: string,
-  artist: string,
-  title: string,
-  cover: string,
+  key: number;
+  path: string;
+  name: string;
+  artist: string;
+  title: string;
+  cover: string;
 };

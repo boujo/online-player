@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { openDB } from "idb";
+import {openDB} from "idb";
 import {
   Header,
   Sidebar,
