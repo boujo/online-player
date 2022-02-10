@@ -1,5 +1,5 @@
-@import '../styles/environment';
-@import '../styles/mediaQueries';
+@import '../../styles/environment';
+@import '../../styles/mediaQueries';
 
 $height: 40px;
 
@@ -12,6 +12,18 @@ $height: 40px;
   background-color: $colorLightGray;
   // border-radius: $borderRadius;
 }
+  .backButton {
+    width: $height - 8px;
+    height: $height - 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      font-size: 24px;
+    }
+  }
+
   .navigation {
     height: 100%;
   }

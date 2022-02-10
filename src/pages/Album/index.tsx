@@ -9,16 +9,9 @@ const Album = () => {
   const { key = '', name } = useParams<'key' | 'name'>();
   const { info, list, loading } = useAlbum(openDB, key);
 
-  const onSelectDirectoryButtonClick = () => {
-    return null;
-  };
-
   return (
     <div className={styles.container}>
-      <Header
-        route="/tracks"
-        onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
-      />
+      <Header backButton />
 
       <div className={styles.main}>
         <div className={styles.header}>
