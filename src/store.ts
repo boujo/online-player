@@ -12,8 +12,8 @@ export const store = configureStore({
     main,
     tracks,
     artists,
-    albums
-  }
+    albums,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

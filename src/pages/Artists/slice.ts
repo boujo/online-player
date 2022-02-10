@@ -1,29 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import {
-  getFilesListFromDirectory
-} from '../../utils';
+import { getFilesListFromDirectory } from '../../utils';
 
 export enum SongStatus {
   STOP,
   PLAY,
-  PAUSE
-};
+  PAUSE,
+}
 
 export type ArtistType = {
-  key: number,
-  name: string,
-  tracks: Array<number>,
+  key: number;
+  name: string;
+  tracks: Array<number>;
 };
 
 export interface State {
-  loading : boolean,
-  list    : Array<ArtistType>
-};
+  loading: boolean;
+  list: Array<ArtistType>;
+}
 
 const INITIAL_STATE: State = {
-  loading : false,
-  list    : []
+  loading: false,
+  list: [],
 };
 
 export const initial = createAsyncThunk(
@@ -39,7 +37,7 @@ export const initial = createAsyncThunk(
         items.push(item);
         items[i].key = keys[i];
       }
-  
+
       return items;
     } catch (err) {
       console.log(err);
@@ -51,8 +49,7 @@ export const initial = createAsyncThunk(
 export const slice = createSlice({
   name: 'artists',
   initialState: INITIAL_STATE,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(initial.pending, (state) => {

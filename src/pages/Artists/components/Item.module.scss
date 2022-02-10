@@ -9,21 +9,7 @@ $height: 150px;
   flex-direction: column;
   border-radius: $borderRadius;
 }
-  .imagePlaceholder {
-    width: 100%;
-    height: $height - 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $colorLightGray;
-    border-radius: $borderRadius;
-
-    i {
-      font-size: 36px;
-    }
-  }
-
-  .image {
+  .cover {
     width: 100%;
     height: $height - 40px;
     border-radius: $borderRadius;

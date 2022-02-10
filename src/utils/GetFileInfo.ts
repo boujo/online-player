@@ -1,27 +1,25 @@
 import jsmediatags from 'jsmediatags';
 
-import { openDB } from "idb";
-import {
-  readFileFromDirectory
-} from './';
+import { openDB } from 'idb';
+import { readFileFromDirectory } from './';
 
 type MediaTags = {
-  album: string,
-  artist: string,
-  title: string,
-  cover: string,
+  album: string;
+  artist: string;
+  title: string;
+  cover: string;
 };
 
 function getMediaTags(file: File) {
   return new Promise<MediaTags>((resolve, reject) => {
     jsmediatags.read(file, {
-      onSuccess: function(result) {
+      onSuccess: function (result) {
         if (result && result.tags) {
           let cover = null;
-  
+
           if (result.tags.picture) {
             const { data, format } = result.tags.picture;
-            let base64String = "";
+            let base64String = '';
             for (let i = 0; i < data.length; i++) {
               base64String += String.fromCharCode(data[i]);
             }
@@ -36,9 +34,9 @@ function getMediaTags(file: File) {
           });
         }
       },
-      onError: function(error) {
+      onError: function (error) {
         reject(error);
-      }
+      },
     });
   });
 }
@@ -48,13 +46,13 @@ async function getFileInfo(fileKey: number) {
     const db = await openDB('online-player', 1);
 
     const fileData = await db.get('list', fileKey);
-  
+
     const handle = await db.get('handles', 'rootHandle');
-  
+
     const file = await readFileFromDirectory(handle, fileData.path);
-  
+
     const mediaTags = await getMediaTags(file);
-  
+
     const info = {
       key: fileKey,
       name: file.name,
@@ -63,9 +61,9 @@ async function getFileInfo(fileKey: number) {
       artist: mediaTags.artist,
       title: mediaTags.title,
       cover: mediaTags.cover,
-      dominantColor: fileData.dominantColor
+      dominantColor: fileData.dominantColor,
     };
-  
+
     return info;
   } catch (error: any) {
     throw new Error(error);

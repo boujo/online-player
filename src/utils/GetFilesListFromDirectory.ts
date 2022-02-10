@@ -1,28 +1,25 @@
 import jsmediatags from 'jsmediatags';
 
-import {
-  compressImage,
-  getDominantColor
-} from './';
+import { compressImage, getDominantColor } from './';
 
 interface Info {
-  name: string,
-  album: string,
-  artist: string,
-  title: string,
-  dominantColor: { r: number, g: number, b: number },
-  cover: string | null,
+  name: string;
+  album: string;
+  artist: string;
+  title: string;
+  dominantColor: { r: number; g: number; b: number };
+  cover: string | null;
 }
 
 interface InfoExtended extends Info {
-  path: string,
+  path: string;
 }
 
 function getFileInfo(file: File): Promise<Info> {
   return new Promise((resolve, reject) => {
     if (file) {
       jsmediatags.read(file, {
-        onSuccess: async function(result: any) {
+        onSuccess: async function (result: any) {
           if (result.tags) {
             // get cover photo
             let cover = null;
@@ -32,7 +29,7 @@ function getFileInfo(file: File): Promise<Info> {
               dominantColor = await getDominantColor(data, format);
               // reduce image size
               const compressedData = await compressImage(data, format);
-              let base64String = "";
+              let base64String = '';
               for (let i = 0; i < compressedData.length; i++) {
                 base64String += String.fromCharCode(compressedData[i]);
               }
@@ -52,9 +49,9 @@ function getFileInfo(file: File): Promise<Info> {
             reject('no result');
           }
         },
-        onError: function(error) {
+        onError: function (error) {
           reject(error);
-        }
+        },
       });
       // end of jsmediatags
     }
@@ -63,7 +60,14 @@ function getFileInfo(file: File): Promise<Info> {
   // end of promise
 }
 
-async function getFilesListFromDirectoryRecursively(list: any, relativePath: any, handle: any, types: any, maxLevel: any, currentLevel: any): Promise<void> {
+async function getFilesListFromDirectoryRecursively(
+  list: any,
+  relativePath: any,
+  handle: any,
+  types: any,
+  maxLevel: any,
+  currentLevel: any
+): Promise<void> {
   if (currentLevel <= maxLevel) {
     for await (const [name, subHandle] of handle.entries()) {
       if (subHandle.kind === 'file') {
@@ -73,21 +77,40 @@ async function getFilesListFromDirectoryRecursively(list: any, relativePath: any
         if (types.includes(postfix)) {
           const file = await subHandle.getFile();
           const info = await getFileInfo(file);
-          list.push({ path: (relativePath + name), ...info });
+          list.push({ path: relativePath + name, ...info });
         }
       } else if (subHandle.kind === 'directory') {
         const subRelativePath = relativePath + name + '/';
-        await getFilesListFromDirectoryRecursively(list, subRelativePath, subHandle, types, maxLevel, currentLevel + 1);
+        await getFilesListFromDirectoryRecursively(
+          list,
+          subRelativePath,
+          subHandle,
+          types,
+          maxLevel,
+          currentLevel + 1
+        );
       }
     }
   }
 }
 
-async function getFilesListFromDirectory(handle: any, types: any, maxLevel: any = 3, currentLevel: any = 1): Promise<any> {
+async function getFilesListFromDirectory(
+  handle: any,
+  types: any,
+  maxLevel: any = 3,
+  currentLevel: any = 1
+): Promise<any> {
   const list: any = [];
   const relativePath = '';
 
-  await getFilesListFromDirectoryRecursively(list, relativePath, handle, types, maxLevel, currentLevel);
+  await getFilesListFromDirectoryRecursively(
+    list,
+    relativePath,
+    handle,
+    types,
+    maxLevel,
+    currentLevel
+  );
 
   return list;
 }

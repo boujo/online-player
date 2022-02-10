@@ -1,14 +1,26 @@
-
-async function readFileFromDirectoryRecursively(handle: any, pathSplit: any, currentPathIndex: any): Promise<any> {
+async function readFileFromDirectoryRecursively(
+  handle: any,
+  pathSplit: any,
+  currentPathIndex: any
+): Promise<any> {
   let file = null;
 
   if (currentPathIndex === pathSplit.length - 1) {
-    const fileHandle = await handle.getFileHandle(pathSplit[currentPathIndex], { create: false });
+    const fileHandle = await handle.getFileHandle(pathSplit[currentPathIndex], {
+      create: false,
+    });
     file = await fileHandle.getFile();
   } else {
-    const subHandle = await handle.getDirectoryHandle(pathSplit[currentPathIndex], { create: false });
+    const subHandle = await handle.getDirectoryHandle(
+      pathSplit[currentPathIndex],
+      { create: false }
+    );
     if (subHandle) {
-      file = await readFileFromDirectoryRecursively(subHandle, pathSplit, currentPathIndex + 1);
+      file = await readFileFromDirectoryRecursively(
+        subHandle,
+        pathSplit,
+        currentPathIndex + 1
+      );
     }
   }
 
@@ -33,7 +45,11 @@ async function readFileFromDirectory(handle: any, path: any) {
   const hasPermission = await checkPermission(handle);
 
   if (hasPermission) {
-    file = await readFileFromDirectoryRecursively(handle, pathSplit, currentPathIndex);
+    file = await readFileFromDirectoryRecursively(
+      handle,
+      pathSplit,
+      currentPathIndex
+    );
   }
 
   return file;
