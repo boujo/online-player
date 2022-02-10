@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { openDB } from 'idb';
-import { Header, Sidebar, Loading } from '../../components';
+import { Header, Sidebar, Loading, Image } from '../../components';
 import { Item } from './components';
 import { useAlbum } from './hooks';
 import styles from './styles.module.scss';
@@ -23,7 +23,12 @@ const Album = () => {
       <div className={styles.main}>
         <div className={styles.header}>
           <div className={styles.cover}>
-            <img alt={info.name} src={info.cover} />
+            <Image
+              className={styles.coverImage}
+              src={info.cover}
+              type="album"
+              alt={info.name}
+            />
           </div>
 
           <div className={styles.info}>
