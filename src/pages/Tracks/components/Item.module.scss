@@ -15,22 +15,7 @@ $height: 40px;
   //   background-color: rgba($colorPrimary, 0.4);
   // }
 }
-  .imagePlaceholder {
-    width: $height;
-    height: $height;
-    margin: 0 8px 0 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $colorLightGray;
-    border-radius: $borderRadius;
-
-    i {
-      font-size: 24px;
-    }
-  }
-
-  .image {
+  .cover {
     width: $height;
     height: $height;
     margin: 0 8px 0 0;

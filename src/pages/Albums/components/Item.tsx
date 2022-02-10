@@ -1,3 +1,4 @@
+import { Image } from '../../../components';
 import styles from './Item.module.scss';
 
 type ComponentProps = {
@@ -27,15 +28,9 @@ const Item = ({
 }: ComponentProps): JSX.Element => {
   return (
     <div className={styles.container} onClick={onSelect}>
-      {cover ? (
-        <div className={styles.cover}>
-          <img src={cover} alt={name} />
-        </div>
-      ) : (
-        <div className={styles.imagePlaceholder}>
-          <i className="material-icons">person</i>
-        </div>
-      )}
+      <div className={styles.cover}>
+        <Image src={cover} type="album" alt={name} />
+      </div>
 
       <div className={styles.bottom}>
         <div className={styles.info}>

@@ -1,3 +1,4 @@
+import { Image } from '../../../components';
 import styles from './Item.module.scss';
 
 type ComponentProps = {
@@ -48,15 +49,9 @@ const Item = ({
       onClick={onSelect}
       role="listitem"
     >
-      {cover ? (
-        <div className={styles.image}>
-          <img src={cover} alt={name} />
-        </div>
-      ) : (
-        <div className={styles.imagePlaceholder}>
-          <i className="material-icons">album</i>
-        </div>
-      )}
+      <div className={styles.cover}>
+        <Image src="" type="track" alt={name} />
+      </div>
 
       <div className={styles.info}>
         <div

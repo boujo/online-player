@@ -5,43 +5,71 @@
   width: 100%;
   // height: 100vh;
 }
-  .main {
+.main {
+  width: 100%;
+  height: calc(100vh - 40px - 48px); // 40px header, 48px player
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+  .header {
     width: 100%;
-    height: calc(100vh - 40px - 48px); // 40px header, 48px player
+    height: 60px;
+    margin: 0 0 8px 0;
     display: flex;
-    flex-direction: row;
-    overflow: hidden;
   }
-    .left {
-      width: 100px;
-      height: 100%;
-      display: none;
+    .cover {
+      width: 60px;
+      height: 60px;
+      border-radius: $borderRadius;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
     }
 
-    .right {
+    .info {
       flex: 1;
-      padding: 8px;
-      overflow: auto;
+      margin: 0 0 0 8px;
+      overflow: hidden;
     }
-      .list {
+      .name {
         width: 100%;
-        padding: 8px;
-        border: solid 1px $colorLightGray;
-        border-radius: $borderRadius;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+        color: $colorBlack;
+        overflow: hidden;
+        white-space:nowrap; 
+        text-overflow: ellipsis;
       }
 
-  .loading {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba($colorBlack, 0.3);
+      .artist {
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        font-size: 14px;
+        color: $colorBlack;
+        overflow: hidden;
+        white-space:nowrap; 
+        text-overflow: ellipsis;
+      }
+
+  .list {
+    flex: 1;
+    padding: 8px;
+    border: solid 1px $colorLightGray;
+    border-radius: $borderRadius;
+    overflow: auto;
   }
 
-@include tablet {
-  .container {}
-    .main {}
-      .left { display: block; }
-      .list {}
+.loading {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($colorBlack, 0.3);
 }
