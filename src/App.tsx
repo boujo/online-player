@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux';
 
+import { PlaylistProvider } from './providers/Playlist';
 import { Layout } from './components/core';
 import { store } from './store';
 import Router from './Router';
@@ -12,11 +13,13 @@ import './App.scss';
 function App() {
   return (
     <Provider store={store}>
-      <div className="app">
-        <Layout>
-          <Router />
-        </Layout>
-      </div>
+      <PlaylistProvider>
+        <div className="app">
+          <Layout>
+            <Router />
+          </Layout>
+        </div>
+      </PlaylistProvider>
     </Provider>
   );
 }
