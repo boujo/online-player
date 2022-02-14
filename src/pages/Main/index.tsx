@@ -1,17 +1,11 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { openDB } from 'idb';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { initial } from './slice';
+import { useInitial } from './hooks';
 
 import styles from './index.module.scss';
 
 const Main = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(initial({ openDB }));
-  }, []);
+  const { loading } = useInitial(openDB);
 
   return (
     <div className={styles.container}>

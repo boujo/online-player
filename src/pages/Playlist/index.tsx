@@ -1,14 +1,10 @@
-import { useEffect } from 'react';
 import { usePlaylist } from '../../providers/Playlist';
 import { Header, Sidebar } from '../../components';
-import { useAppDispatch } from '../../hooks';
-import { selectedFileChange } from '../../slice';
 import { Item } from './components';
 
 import styles from './index.module.scss';
 
 const Playlist = () => {
-  // const dispatch = useAppDispatch();
   const { list } = usePlaylist();
 
   return (

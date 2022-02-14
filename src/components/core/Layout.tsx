@@ -1,6 +1,4 @@
-import { useAppSelector } from '../../hooks';
-import { RootState } from '../../store';
-import { State, Status } from '../../slice';
+import { usePlayer } from '../../providers/Player';
 import { Player } from './';
 
 import styles from './Layout.module.scss';
@@ -14,18 +12,13 @@ const defaultProps = {
 };
 
 function Layout({ children }: ComponentProps): JSX.Element {
-  const state: State = useAppSelector((state: RootState): State => {
-    return {
-      status: state.global.status,
-      selectedFile: state.global.selectedFile,
-    };
-  });
+  const { selectedFile } = usePlayer();
 
   return (
     <div className={styles.container}>
       {children}
 
-      <Player fileInfo={state.selectedFile} />
+      <Player fileInfo={selectedFile} />
     </div>
   );
 }
