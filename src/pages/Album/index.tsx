@@ -1,15 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { openDB } from 'idb';
 import { Header, Sidebar, Loading, Image } from '../../components';
-import { useAppDispatch } from '../../hooks';
-import { selectedFileChange } from '../../slice';
+import { usePlayer } from '../../providers/Player';
 import { Item } from './components';
 import { useAlbum } from './hooks';
 import styles from './styles.module.scss';
 
 const Album = () => {
-  const dispatch = useAppDispatch();
-
+  const { selectedFileChange } = usePlayer();
   const { key = '', name } = useParams<'key' | 'name'>();
   const { info, list, loading } = useAlbum(openDB, key);
 
@@ -41,7 +39,7 @@ const Album = () => {
                 artist={item.artist}
                 cover={item.cover}
                 onSelect={() => {
-                  dispatch(selectedFileChange({ key: item.key }));
+                  selectedFileChange(item.key);
                 }}
               />
             );

@@ -1,57 +1,27 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { openDB, deleteDB } from 'idb';
-
 import { Header, Sidebar, Loading } from '../../components';
-import { RootState } from '../../store';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { State as GlobalState, selectedFileChange } from '../../slice';
+import { usePlayer } from '../../providers/Player';
 import { Item } from './components';
-import { State, ItemType, initial, updateFiles } from './slice';
+import { useFiles } from '../../hooks';
+import { useTracks } from './hooks';
 
 import styles from './index.module.scss';
 
 const Tracks = () => {
-  const dispatch = useAppDispatch();
-
-  const state: State = useAppSelector((state: RootState): State => {
-    return {
-      loading: state.tracks.loading,
-      list: state.tracks.list,
-    };
-  });
-
-  const globalState: GlobalState = useAppSelector(
-    (state: RootState): GlobalState => {
-      return {
-        status: state.global.status,
-        selectedFile: state.global.selectedFile,
-      };
-    }
-  );
-
-  useEffect(() => {
-    // on mount
-    dispatch(initial({ openDB }));
-  }, []);
-
-  const onSelectDirectoryButtonClick = () => {
-    dispatch(updateFiles({ openDB, deleteDB }));
-  };
+  const { selectedFile, selectedFileChange } = usePlayer();
+  const { list, loading } = useTracks(openDB);
+  const { loading: loadingFiles, updateFiles } = useFiles(openDB, deleteDB);
 
   return (
     <div className={styles.container}>
-      <Header
-        route="/tracks"
-        onSelectDirectoryButtonClick={onSelectDirectoryButtonClick}
-      />
+      <Header route="/tracks" onSelectDirectoryButtonClick={updateFiles} />
 
       <div className={styles.main}>
         <Sidebar route="/tracks" />
 
         <div className={styles.right}>
           <div className={styles.list}>
-            {state.list.map(function (item, index) {
+            {list.map(function (item, index) {
               return (
                 <Item
                   key={item.key}
@@ -61,10 +31,10 @@ const Tracks = () => {
                   artist={item.artist}
                   title={item.title}
                   cover={item.cover}
-                  selected={item.key === globalState.selectedFile.key}
-                  color={globalState.selectedFile.dominantColor}
+                  selected={item.key === selectedFile.key}
+                  color={selectedFile.dominantColor}
                   onSelect={() => {
-                    dispatch(selectedFileChange({ key: item.key }));
+                    selectedFileChange(item.key);
                   }}
                 />
               );
@@ -73,7 +43,7 @@ const Tracks = () => {
         </div>
       </div>
 
-      {state.loading ? (
+      {loading || loadingFiles ? (
         <div className={styles.loading}>
           <Loading size="large" />
         </div>

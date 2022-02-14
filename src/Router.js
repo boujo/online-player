@@ -6,6 +6,7 @@ import Albums from './pages/Albums';
 import Album from './pages/Album';
 import Artists from './pages/Artists';
 import Artist from './pages/Artist';
+import Playlist from './pages/Playlist';
 
 function Router(props) {
   return (
@@ -17,6 +18,7 @@ function Router(props) {
         <Route path="/albums/:key/:name" element={<Album />} exact />
         <Route path="/artists" element={<Artists />} exact />
         <Route path="/artists/:key/:name" element={<Artist />} exact />
+        <Route path="/playlist" element={<Playlist />} exact />
 
         {/* <Route path="*" component={NoMatch} /> */}
       </Routes>

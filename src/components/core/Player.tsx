@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SelectedFile } from '../../slice';
+import { SelectedFile } from '../../providers/Player/types';
 
 import styles from './Player.module.scss';
 

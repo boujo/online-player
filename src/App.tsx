@@ -1,7 +1,6 @@
-import { Provider } from 'react-redux';
-
+import { PlayerProvider } from './providers/Player';
+import { PlaylistProvider } from './providers/Playlist';
 import { Layout } from './components/core';
-import { store } from './store';
 import Router from './Router';
 
 import './styles/globals.scss';
@@ -11,13 +10,15 @@ import './App.scss';
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="app">
-        <Layout>
-          <Router />
-        </Layout>
-      </div>
-    </Provider>
+    <PlayerProvider>
+      <PlaylistProvider>
+        <div className="app">
+          <Layout>
+            <Router />
+          </Layout>
+        </div>
+      </PlaylistProvider>
+    </PlayerProvider>
   );
 }
 

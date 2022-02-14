@@ -5,10 +5,11 @@ $smallHeight: 48px;
 
 .container {
   width: 100%;
+  max-width: 400px;
   height: 100vh;
   position: fixed;
   top: calc(100vh - #{$smallHeight});
-  left: 0;
+  right: 0;
   padding: 0 20px;
   background-color: $colorWhite;
   transition: all 0.3s ease;
